@@ -8,43 +8,19 @@
 #' @param map_keys logical. If TRUE, then use `imap` which provides the keys as the second element to the function
 #'
 #' @examples
-#' c(1,2,3) %>% kv_map(~list(key=letters[[.]], value=.))
-#' c(1,2,3) %>% kv_map(function(x){ list(key=letters[[x]], value=x) })
-#' c(a=1,b=2,c=3) %>% kv_map(~list(key=str_c(.y, '²'), value=.x), map_keys=T)
-kv_map = function(l, func, map_keys=F){
-  mapper = ifelse(map_keys, purrr::imap, purrr::map)
-  mapper(l, func) %>%
-    bind_rows() %>%
-    pull(var='value', name='key')
+#' c(1, 2, 3) %>% kv_map(~ list(key = letters[[.]], value = .))
+#' c(1, 2, 3) %>% kv_map(function(x) {
+#'   list(key = letters[[x]], value = x)
+#' })
+#' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = str_c(.y, "²"), value = .x), map_keys = T)
+kv_map <- function(l, func, map_keys = F) {
+  mapper <- ifelse(map_keys, purrr::imap, purrr::map)
+  mapped = mapper(l, func) %>% set_names(nm = NULL)
+  keys = mapped %>% map_chr('key')
+  vals = mapped %>% map('value')
+  vals %>% set_names(keys)
 }
 
-#' Generates a list of summary statistics for the provided vector
-#'
-calc_summary_stats = function(vect, stats=NULL){
-  if (is.null(stats)){
-    stats = list(
-      `mean` = mean,
-      `sd` = sd
-    )
-  }
-  stats %>%
-    purrr::map(function(stat){
-      stat(vect)
-    }) %>%
-    purrr::set_names(names(stats))
-
-}
-
-#' Ensures a key is present in a list
-ensure_key = function(lst, key, value_fact=list) {
-  if (key %in% lst){
-    return()
-  }
-
-  lst[[key]] = value_fact()
-  lst
-}
-
-sanitise_plot_name = function(name){
-  str_split(name, ' ')[[1]][[1]]
+sanitise_plot_name <- function(name) {
+  str_split(name, " ")[[1]][[1]]
 }

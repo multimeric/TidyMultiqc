@@ -1,9 +1,10 @@
-require('jsonlite')
-require('purrr')
-require('stringr')
-require('moments')
-require('dplyr')
-require('rlang')
+require("jsonlite")
+require("purrr")
+require("stringr")
+require("moments")
+require("dplyr")
+require("rlang")
+require("tibble")
 
 
 #' Parses the "general_stats_data_ section
@@ -11,18 +12,19 @@ require('rlang')
 #' @param parsed The full parsed multiqc JSON file
 #'
 #' @return A list of samples, each of which has a list of metrics
-parse_general = function(parsed){
+parse_general <- function(parsed) {
   parsed$report_general_stats_data %>%
-    map(function(inner){
-      inner %>% imap(function(sample_data, sample){
-        sample_data %>% kv_map(function(mvalue, mname){
+    map(function(inner) {
+      inner %>% imap(function(sample_data, sample) {
+        sample_data %>% kv_map(function(mvalue, mname) {
           list(
-            key=str_c('general', mname, sep='.'),
-            value=mvalue
+            key = str_c("general", mname, sep = "."),
+            value = mvalue
           )
         }, map_keys = T)
       })
-    }) %>% flatten()
+    }) %>%
+    flatten()
 }
 
 #' Parses the "report_saved_raw_data" section
@@ -30,30 +32,27 @@ parse_general = function(parsed){
 #' @param parsed The full parsed multiqc JSON file
 #'
 #' @return A list of samples, each of which has a list of metrics
-parse_raw = function(parsed){
-  results = list()
-
+parse_raw <- function(parsed) {
   # For each tool
-  imap(parsed$report_saved_raw_data, function(tool, samples){
+  parsed$report_saved_raw_data %>% imap(function(samples, tool) {
     # For each sample
-    imap(samples, function(sample, metrics){
-      # Each sample has a sub-list
-      results <<- ensure_key(results, sample)
-
+    samples %>% kv_map(function(metrics, sample) {
       # For each metric in the above tool
-      imap(metrics, function(mname, mvalue){
+      list(
+        key=sample,
+        value = metrics %>% kv_map(function(mvalue, mname) {
         # Sanitise metric names
-        mname = last(str_split(mname, '-')[[1]])
-        combined_metric = paste(tool, mname, sep='.')
-        results[[sample]][[combined_metric]] <<- mvalue
-      })
-    })
-  })
-
-  results
+        mname <- str_split(mname, "-")[[1]] %>% last()
+        combined_metric <-
+        list(
+          key = str_c(tool, mname, sep = "."),
+          value = mvalue
+        )
+      }, map_keys = T)
+      )
+    }, map_keys = T)
+  }) %>% reduce(modifyList)
 }
-
-
 
 
 #' Parses metadata using a user-supplied function
@@ -65,16 +64,13 @@ parse_raw = function(parsed){
 #' @export
 #'
 #' @examples
-parse_metadata = function(parsed, samples, find_metadata){
-  results = list()
-  for (sample in samples){
-    results = ensure_key(results, sample)
+parse_metadata <- function(parsed, samples, find_metadata) {
+  samples %>%
+    map(function(sample){
     # Find metadata using a user-defined function
-    metadata = find_metadata(sample, parsed)
-    names(metadata) = str_c('metadata', names(metadata), sep='.')
-    results[[sample]] = modifyList(results[[sample]], metadata)
-  }
-  results
+    metadata <- find_metadata(sample, parsed) %>%
+      set_names(~ str_c("metadata", ., sep = "."))
+  })
 }
 
 #' Loads a MultiQC report into a data frame
@@ -99,22 +95,21 @@ parse_metadata = function(parsed, samples, find_metadata){
 #' section, and 'raw' means parse the raw data section
 #'
 #' @return A tibble with QC data and metadata as columns, and samples as rows
-load_multiqc_file = function(
-  path,
-  plot_opts=list(),
-  find_metadata=list,
-  sections=c('general'),
-){
-  parsed = read_json(path)
+load_multiqc_file <- function(path,
+                              plot_opts = list(),
+                              find_metadata = list,
+                              sections = "general") {
+  parsed <- read_json(path)
 
   sections %>%
-    map(~switch(.,
-      general=parse_general,
-      raw=parse_raw,
-      plots=partial(parse_plots, extractors=plot_extractors, summary_stats=summary_stats)
+    map(~ switch(.,
+      general = parse_general,
+      raw = parse_raw,
+      plots = partial(parse_plots, options = plot_opts)
     )(parsed)) %>%
-      reduce(list_merge) %>%
-      bind_rows()
+    reduce(modifyList) %>%
+    imap(~ list_merge(.x, metadata.sample_id=.y)) %>%
+    bind_rows()
 }
 
 
@@ -123,7 +118,7 @@ load_multiqc_file = function(
 #' @param paths A vector of paths to MultiQC JSON files
 #' @param ... Args to pass to load_multiqc_file
 #' @return A tibble, see load_multiqc_file
-load_multiqc = function(paths, ...){
+load_multiqc <- function(paths, ...) {
   purrr::map(paths, load_multiqc_file, ...) %>%
     flatten() %>%
     bind_rows()
