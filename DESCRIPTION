@@ -1,0 +1,22 @@
+Package: multiqc
+Type: Package
+Title: R Parser for MultiQC
+Version: 0.1.0
+Author: Michael Milton
+Maintainer: Michael Milton <michael.r.milton@gmail.com>
+Description: Converts MultiQC reports into data formats suited to analysis in R
+License: GPLv3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    jsonlite,
+    magrittr,
+    moments,
+    purrr,
+    rlang,
+    stringr,
+    tibble
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
