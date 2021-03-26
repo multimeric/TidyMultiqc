@@ -1,5 +1,15 @@
 require("purrr")
 
+
+#' Summary statistic for finding the Q30 of a dataset of quality scores
+#' @export
+stat_q30 = function(vec){
+  cdf = ecdf(vec)
+  # We use just less than 30, because we want P(X >= 30) but 1 - CDF gives us
+  # P(X > 30)
+  1 - cdf(29.9999)
+}
+
 #' Extractor function that ignores the x-axis and applies statistics over the
 #' y-values. For example this might be relevant for a mean per-base fastq
 #' quality score. This will let you then calculate the overall mean quality of
