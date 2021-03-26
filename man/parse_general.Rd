@@ -2,7 +2,7 @@
 % Please edit documentation in R/multiqc.R
 \name{parse_general}
 \alias{parse_general}
-\title{Parses the "general_stats_data_ section}
+\title{Parses the "general_stats_data" section}
 \usage{
 parse_general(parsed)
 }
@@ -13,6 +13,6 @@ parse_general(parsed)
 A list of samples, each of which has a list of metrics
 }
 \description{
-Parses the "general_stats_data_ section
+Parses the "general_stats_data" section
 }
 \keyword{internal}

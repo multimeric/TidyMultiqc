@@ -1,5 +1,3 @@
-require(jsonlite)
-
 test_that("We can parse the general section", {
   report <- load_multiqc_file("HG00096/multiqc_data.json", sections = 'general')
 
@@ -76,6 +74,8 @@ test_that("the `extract_ignore_x` extractor works", {
 
 
 test_that("we can extract bar graphs", {
+  require(jsonlite)
+
   # The "fastqc_per_base_sequence_quality_plot" plots the read position against
   # the mean quality score at that position, so if we just ignore the position
   # we can calculate the overall mean quality score
@@ -109,6 +109,33 @@ test_that("We can enable all sections at once", {
       )
     )
   )
+
+  # We only have one sample
+  expect_equal(nrow(report), 1)
+  expect_equal(ncol(report), 32)
+  # The column should have been renamed
+  expect_true('quality.mean' %in% colnames(report))
+  # We want the right result
+  expect_equal(report[[1, 'quality.mean']], 32.4, tolerance = 0.5)
+})
+
+test_that("We can read the MultiQC example WGS file", {
+  # The "fastqc_per_base_sequence_quality_plot" plots the read position against
+  # the mean quality score at that position, so if we just ignore the position
+  # we can calculate the overall mean quality score
+
+  report <- load_multiqc_file(
+    "wgs/multiqc_data.json",
+    sections = c("plots", 'general', 'raw'),
+    plot_opts=list(
+      fastqc_per_sequence_quality_scores_plot = list(
+        summary=stat_q30,
+        extractor=extract_histogram
+      )
+    )
+  )
+
+  browser()
 
   # We only have one sample
   expect_equal(nrow(report), 1)

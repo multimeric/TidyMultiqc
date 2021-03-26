@@ -7,7 +7,7 @@ require("rlang")
 require("tibble")
 
 
-#' Parses the "general_stats_data_ section
+#' Parses the "general_stats_data" section
 #'
 #' @param parsed The full parsed multiqc JSON file
 #'
