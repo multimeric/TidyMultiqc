@@ -5,15 +5,10 @@
 \title{Takes the JSON dictionary for an xyline plot, and returns a list of lists
 of quality metrics}
 \usage{
-parse_xyline_plot(
-  plot_data,
-  plot_name,
-  extractor,
-  summary = list(mean = mean),
-  rename = NULL
-)
+parse_xyline_plot(plot_data, prefix, extractor, summary = list(mean = mean))
 }
 \description{
 Takes the JSON dictionary for an xyline plot, and returns a list of lists
 of quality metrics
 }
+\keyword{internal}

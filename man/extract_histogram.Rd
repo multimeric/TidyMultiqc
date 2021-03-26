@@ -2,10 +2,12 @@
 % Please edit documentation in R/plots.R
 \name{extract_histogram}
 \alias{extract_histogram}
-\title{Extractor function that calculates statistics for a histogram}
+\title{Extractor function that calculates statistics for a histogram. For example
+this might be relevant for the}
 \usage{
 extract_histogram(data)
 }
 \description{
-Extractor function that calculates statistics for a histogram
+Extractor function that calculates statistics for a histogram. For example
+this might be relevant for the
 }

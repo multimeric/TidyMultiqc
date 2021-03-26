@@ -23,7 +23,7 @@ The list can have the following keys:
   function provided by this package}
   \item{$summary}{A function that maps a vector to a scalar, to "summarise"
   it. For example, you might want to use the `mean` function}
-  \item{$rename}{A new name for this plot. MultiQC sometimes has some
+  \item{$prefix}{A new name for this plot. MultiQC sometimes has some
   unwieldy names for its plot, so this lets you rename it}
 }}
 

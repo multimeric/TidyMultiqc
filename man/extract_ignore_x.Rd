@@ -3,11 +3,15 @@
 \name{extract_ignore_x}
 \alias{extract_ignore_x}
 \title{Extractor function that ignores the x-axis and applies statistics over the
-y-values}
+y-values. For example this might be relevant for a mean per-base fastq
+quality score. This will let you then calculate the overall mean quality of
+the reads.}
 \usage{
 extract_ignore_x(data)
 }
 \description{
 Extractor function that ignores the x-axis and applies statistics over the
-y-values
+y-values. For example this might be relevant for a mean per-base fastq
+quality score. This will let you then calculate the overall mean quality of
+the reads.
 }

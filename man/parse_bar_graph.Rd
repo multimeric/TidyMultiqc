@@ -5,13 +5,7 @@
 \title{Takes the JSON dictionary for a bar graph, and returns a list of lists
 of quality metrics}
 \usage{
-parse_bar_graph(
-  plot_data,
-  plot_name,
-  extractor,
-  summary = list(mean = mean),
-  rename = NULL
-)
+parse_bar_graph(plot_data, prefix, extractor, summary)
 }
 \description{
 Takes the JSON dictionary for a bar graph, and returns a list of lists
