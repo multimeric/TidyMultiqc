@@ -32,7 +32,7 @@ test_that("the `extract_histogram` extractor works", {
       `fastqc_per_sequence_quality_scores_plot` = list(
         extractor = extract_histogram,
         summary = list(mean=mean),
-        rename = "quality"
+        prefix = "quality"
       )
     )
   )
@@ -59,7 +59,7 @@ test_that("the `extract_ignore_x` extractor works", {
       `fastqc_per_base_sequence_quality_plot` = list(
         extractor = extract_ignore_x,
         summary = list(mean=mean),
-        rename = "quality"
+        prefix = "quality"
       )
     )
   )
@@ -80,7 +80,7 @@ test_that("we can extract bar graphs", {
   # the mean quality score at that position, so if we just ignore the position
   # we can calculate the overall mean quality score
   report = read_json('snpeff_variant_effects_region.json') %>%
-    parse_bar_graph(plot_name = "effects") %>%
+    parse_bar_graph(prefix = "effects") %>%
     bind_rows()
 
   # We have 6 samples
@@ -105,7 +105,7 @@ test_that("We can enable all sections at once", {
       `fastqc_per_base_sequence_quality_plot` = list(
         extractor = extract_ignore_x,
         summary = list(mean=mean),
-        rename = "quality"
+        prefix = "quality"
       )
     )
   )

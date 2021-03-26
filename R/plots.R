@@ -1,7 +1,10 @@
 require("purrr")
 
 #' Extractor function that ignores the x-axis and applies statistics over the
-#' y-values
+#' y-values. For example this might be relevant for a mean per-base fastq
+#' quality score. This will let you then calculate the overall mean quality of
+#' the reads.
+#' @export
 extract_ignore_x <- function(data) {
   map_dbl(
     data, function(point) {
@@ -18,7 +21,9 @@ extract_ignore_x <- function(data) {
   )
 }
 
-#' Extractor function that calculates statistics for a histogram
+#' Extractor function that calculates statistics for a histogram. For example
+#' this might be relevant for the
+#' @export
 extract_histogram <- function(data) {
   flatten_dbl(purrr::map(data, function(datum) {
     # If the histogram has the coordinate 10, 20 it means we have seen the
@@ -30,12 +35,12 @@ extract_histogram <- function(data) {
 
 #' Takes the JSON dictionary for an xyline plot, and returns a list of lists
 #' of quality metrics
+#' @keywords internal
 parse_xyline_plot = function(
   plot_data,
-  plot_name,
+  prefix,
   extractor,
-  summary = list(mean=mean),
-  rename = NULL
+  summary = list(mean=mean)
 ) {
   plot_data$datasets %>%
     map(function(dataset) {
@@ -49,7 +54,7 @@ parse_xyline_plot = function(
             kv_map(function(summariser, key){
               # We let the user rename this plot
               # Also, combine the plot name with the summary stat name
-              new_key = str_c(if_else(is.null(rename), plot_name, rename), key, sep='.')
+              new_key = str_c(prefix, key, sep='.')
               list(
                 key=new_key,
                 value = summariser(exatracted)
@@ -66,17 +71,16 @@ parse_xyline_plot = function(
 
 #' Takes the JSON dictionary for a bar graph, and returns a list of lists
 #' of quality metrics
+#' @keywords internal
 parse_bar_graph = function(
   plot_data,
-  plot_name,
+  prefix,
   extractor,
-  summary = list(mean=mean),
-  rename = NULL
+  summary
 ){
   # This only works on bar_graphs
   assert_that(plot_data$plot_type == 'bar_graph')
-  # Allow plot renaming
-  plot_name = if_else(is.null(rename), plot_name, rename)
+
   # Make a list of samples
   samples = plot_data$samples[[1]] %>% flatten_chr()
 
@@ -88,23 +92,29 @@ parse_bar_graph = function(
         kv_map(function(value, idx){
           list(
             key=samples[[idx]],
-            value=list(value) %>% set_names(str_c(plot_name, segment_name, sep='.'))
+            value=list(value) %>% set_names(str_c(prefix, segment_name, sep='.'))
           )
         }, map_keys = T)
     }) %>% reduce(modifyList)
 }
 
-#' Returns a list of summary statistics for the provided plot data
+#' Returns a list of summary statistics for a plotly plot, provided as a list
+#' e.g. from jsonlite
 #'
 #' @param plot_data A list containing the keys $plot_type, $datasets and $config
-#' @param type The name of this plot, e.g. "fastqc_per_base_n_content_plot"
 #' @param extractor A function which converts the raw plot JSON into a vector
 #' @param summary A function that maps a vector to a scalar
-#' @param rename A new name for this plot
+#' @param prefix The prefix for this plot type in the final data frame
 #' @returns A list of samples, each containing a list of plots, each containing
 #' a list of summary stats
-plot_features <- function(...) {
-  args = list(...)
+#' @export
+parse_plot_features <- function(
+  plot_data,
+  prefix,
+  extractor=extract_ignore_x,
+  summary=list(mean=mean)
+) {
+  args = as.list(match.call())[-1]
   # Switch case to handle each plot type differently
   switch(args$plot_data$plot_type,
     # For unknown plots, do nothing
@@ -119,6 +129,7 @@ plot_features <- function(...) {
 #' @param parsed The full parsed multiqc JSON file
 #'
 #' @return A list of samples, each of which has a list of metrics
+#' @keywords internal
 parse_plots <- function(parsed, options) {
 
   # Plot data is more complex
@@ -127,7 +138,12 @@ parse_plots <- function(parsed, options) {
       # Skip any plot not explicitly given an extractor, it's impossible to infer
       # what type of plot each is
       if (plot_name %in% names(options)) {
-        exec(plot_features, plot_data=plot_data, plot_name=plot_name, !!!options[[plot_name]])
+        opts = options[[plot_name]]
+        # By default, we use the plot's name in the JSON as the prefix
+        if (!'prefix' %in% names(opts)){
+          opts$prefix = plot_name
+        }
+        exec(parse_plot_features, plot_data=plot_data, !!!opts)
       }
     }) %>%
     purrr::flatten() %>%

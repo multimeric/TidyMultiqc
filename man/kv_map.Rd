@@ -29,3 +29,4 @@ c(1, 2, 3) \%>\% kv_map(function(x) {
 })
 c(a = 1, b = 2, c = 3) \%>\% kv_map(~ list(key = str_c(.y, "²"), value = .x), map_keys = T)
 }
+\keyword{internal}

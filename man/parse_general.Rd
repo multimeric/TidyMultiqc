@@ -15,3 +15,4 @@ A list of samples, each of which has a list of metrics
 \description{
 Parses the "general_stats_data_ section
 }
+\keyword{internal}

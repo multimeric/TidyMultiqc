@@ -11,9 +11,7 @@ parse_metadata(parsed, samples, find_metadata)
 
 \item{samples}{A list of known sample names}
 }
-\value{
-
-}
 \description{
 Parses metadata using a user-supplied function
 }
+\keyword{internal}

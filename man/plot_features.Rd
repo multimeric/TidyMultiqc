@@ -24,3 +24,4 @@ a list of summary stats
 \description{
 Returns a list of summary statistics for the provided plot data
 }
+\keyword{internal}

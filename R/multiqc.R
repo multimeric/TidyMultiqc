@@ -12,6 +12,7 @@ require("tibble")
 #' @param parsed The full parsed multiqc JSON file
 #'
 #' @return A list of samples, each of which has a list of metrics
+#' @keywords internal
 parse_general <- function(parsed) {
   parsed$report_general_stats_data %>%
     map(function(inner) {
@@ -32,6 +33,7 @@ parse_general <- function(parsed) {
 #' @param parsed The full parsed multiqc JSON file
 #'
 #' @return A list of samples, each of which has a list of metrics
+#' @keywords internal
 parse_raw <- function(parsed) {
   # For each tool
   parsed$report_saved_raw_data %>% imap(function(samples, tool) {
@@ -59,11 +61,7 @@ parse_raw <- function(parsed) {
 #'
 #' @param parsed The parsed multiqc.json
 #' @param samples A list of known sample names
-#'
-#' @return
-#' @export
-#'
-#' @examples
+#' @keywords internal
 parse_metadata <- function(parsed, samples, find_metadata) {
   samples %>%
     map(function(sample){
@@ -85,7 +83,7 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #'   function provided by this package}
 #'   \item{$summary}{A function that maps a vector to a scalar, to "summarise"
 #'   it. For example, you might want to use the `mean` function}
-#'   \item{$rename}{A new name for this plot. MultiQC sometimes has some
+#'   \item{$prefix}{A new name for this plot. MultiQC sometimes has some
 #'   unwieldy names for its plot, so this lets you rename it}
 #' }
 #' @param find_metadata A function that will be called with a sample name and the
@@ -93,6 +91,8 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #' @param sections List of the sections to include in the output: 'plots'
 #' in the list means parse plot data, 'general' means parse the general stats
 #' section, and 'raw' means parse the raw data section
+#'
+#' @export
 #'
 #' @return A tibble with QC data and metadata as columns, and samples as rows
 load_multiqc_file <- function(path,
@@ -118,6 +118,7 @@ load_multiqc_file <- function(path,
 #' @param paths A vector of paths to MultiQC JSON files
 #' @param ... Args to pass to load_multiqc_file
 #' @return A tibble, see load_multiqc_file
+#' @export
 load_multiqc <- function(paths, ...) {
   purrr::map(paths, load_multiqc_file, ...) %>%
     flatten() %>%

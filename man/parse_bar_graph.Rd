@@ -17,3 +17,4 @@ parse_bar_graph(
 Takes the JSON dictionary for a bar graph, and returns a list of lists
 of quality metrics
 }
+\keyword{internal}
