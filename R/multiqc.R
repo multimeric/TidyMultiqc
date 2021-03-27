@@ -1,12 +1,3 @@
-require("jsonlite")
-require("purrr")
-require("stringr")
-require("moments")
-require("dplyr")
-require("rlang")
-require("tibble")
-
-
 #' Parses the "general_stats_data" section
 #'
 #' @param parsed The full parsed multiqc JSON file
@@ -15,17 +6,17 @@ require("tibble")
 #' @keywords internal
 parse_general <- function(parsed) {
   parsed$report_general_stats_data %>%
-    map(function(inner) {
-      inner %>% imap(function(sample_data, sample) {
+    purrr::map(function(inner) {
+      inner %>% purrr::imap(function(sample_data, sample) {
         sample_data %>% kv_map(function(mvalue, mname) {
           list(
-            key = str_c("general", mname, sep = "."),
+            key = stringr::str_c("general", mname, sep = "."),
             value = mvalue
           )
         }, map_keys = T)
       })
     }) %>%
-    flatten()
+    purrr::flatten()
 }
 
 #' Parses the "report_saved_raw_data" section
@@ -36,7 +27,7 @@ parse_general <- function(parsed) {
 #' @keywords internal
 parse_raw <- function(parsed) {
   # For each tool
-  parsed$report_saved_raw_data %>% imap(function(samples, tool) {
+  parsed$report_saved_raw_data %>% purrr::imap(function(samples, tool) {
     # For each sample
     samples %>% kv_map(function(metrics, sample) {
       # For each metric in the above tool
@@ -44,7 +35,7 @@ parse_raw <- function(parsed) {
         key=sample,
         value = metrics %>% kv_map(function(mvalue, mname) {
         # Sanitise metric names
-        mname <- str_split(mname, "-")[[1]] %>% last()
+        mname <- stringr::str_split(mname, "-")[[1]] %>% last()
         combined_metric <-
         list(
           key = str_c(tool, mname, sep = "."),
@@ -53,7 +44,7 @@ parse_raw <- function(parsed) {
       }, map_keys = T)
       )
     }, map_keys = T)
-  }) %>% reduce(modifyList)
+  }) %>% purrr::reduce(modifyList)
 }
 
 
@@ -64,10 +55,10 @@ parse_raw <- function(parsed) {
 #' @keywords internal
 parse_metadata <- function(parsed, samples, find_metadata) {
   samples %>%
-    map(function(sample){
+    purrr::map(function(sample){
     # Find metadata using a user-defined function
     metadata <- find_metadata(sample, parsed) %>%
-      set_names(~ str_c("metadata", ., sep = "."))
+      purrr::set_names(~ str_c("metadata", ., sep = "."))
   })
 }
 
@@ -99,17 +90,17 @@ load_multiqc_file <- function(path,
                               plot_opts = list(),
                               find_metadata = list,
                               sections = "general") {
-  parsed <- read_json(path)
+  parsed <- jsonlite::read_json(path)
 
   sections %>%
-    map(~ switch(.,
+    purrr::map(~ switch(.,
       general = parse_general,
       raw = parse_raw,
       plots = partial(parse_plots, options = plot_opts)
     )(parsed)) %>%
-    reduce(modifyList) %>%
-    imap(~ list_merge(.x, metadata.sample_id=.y)) %>%
-    bind_rows()
+    purrr::reduce(modifyList) %>%
+    purrr::imap(~ list_merge(.x, metadata.sample_id=.y)) %>%
+    dplyr::bind_rows()
 }
 
 
@@ -121,6 +112,6 @@ load_multiqc_file <- function(path,
 #' @export
 load_multiqc <- function(paths, ...) {
   purrr::map(paths, load_multiqc_file, ...) %>%
-    flatten() %>%
-    bind_rows()
+    purrr::flatten() %>%
+    dplyr::bind_rows()
 }

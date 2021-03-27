@@ -1,10 +1,7 @@
-require("purrr")
-
-
 #' Summary statistic for finding the Q30 of a dataset of quality scores
 #' @export
 stat_q30 = function(vec){
-  cdf = ecdf(vec)
+  cdf = as.cdf(vec)
   # We use just less than 30, because we want P(X >= 30) but 1 - CDF gives us
   # P(X > 30)
   1 - cdf(29.9999)
@@ -16,7 +13,7 @@ stat_q30 = function(vec){
 #' the reads.
 #' @export
 extract_ignore_x <- function(data) {
-  map_dbl(
+  purrr::map_dbl(
     data, function(point) {
       if (length(point) == 1) {
         point[[1]]
@@ -34,12 +31,16 @@ extract_ignore_x <- function(data) {
 #' Extractor function that calculates statistics for a histogram. For example
 #' this might be relevant for the
 #' @export
-extract_histogram <- function(data) {
-  flatten_dbl(purrr::map(data, function(datum) {
-    # If the histogram has the coordinate 10, 20 it means we have seen the
-    # number 10, 20 times, so we duplicate it
-    rep(datum[[1]], datum[[2]])
-  }))
+extract_histogram <- function(data, as_hist_dat=T) {
+  df = unlist(data) %>% matrix(byrow=T, ncol=2)
+  his = hist_dat(vals=df[, 1], counts = df[, 2])
+  
+  if (as_hist_dat){
+    his
+  }
+  else {
+    as.vector(his)
+  }
 }
 
 
@@ -53,12 +54,12 @@ parse_xyline_plot = function(
   summary = list(mean=mean)
 ) {
   plot_data$datasets %>%
-    map(function(dataset) {
+    purrr::map(function(dataset) {
       # For some reason there are two levels of nesting here
       dataset %>%
         kv_map(function(subdataset) {
           # Extract the data once
-          exatracted = extractor(subdataset$data)
+          extracted = extractor(subdataset$data)
           # And then apply each summary statistic over the extracted data
           stats = summary %>%
             kv_map(function(summariser, key){
@@ -67,7 +68,7 @@ parse_xyline_plot = function(
               new_key = str_c(prefix, key, sep='.')
               list(
                 key=new_key,
-                value = summariser(exatracted)
+                value = summariser(extracted)
               )
             }, map_keys = T)
           list(
@@ -89,13 +90,13 @@ parse_bar_graph = function(
   summary
 ){
   # This only works on bar_graphs
-  assert_that(plot_data$plot_type == 'bar_graph')
+  assertthat::assert_that(plot_data$plot_type == 'bar_graph')
 
   # Make a list of samples
   samples = plot_data$samples[[1]] %>% flatten_chr()
 
   plot_data$datasets[[1]] %>%
-    map(function(dataset){
+    purrr::map(function(dataset){
       segment_name = dataset$name
       dataset$data %>%
         # For this segment, each sample has a value
@@ -105,7 +106,8 @@ parse_bar_graph = function(
             value=list(value) %>% set_names(str_c(prefix, segment_name, sep='.'))
           )
         }, map_keys = T)
-    }) %>% reduce(modifyList)
+    }) %>%
+      purrr::reduce(modifyList)
 }
 
 #' Returns a list of summary statistics for a plotly plot, provided as a list
@@ -124,6 +126,11 @@ parse_plot_features <- function(
   extractor=extract_ignore_x,
   summary=list(mean=mean)
 ) {
+  assertthat::has_name(plot_data, 'datasets')
+  assertthat::not_empty(names(summary))
+  assertthat::is.string(prefix)
+  assertthat::assert_that(is_callable(extractor))
+  
   args = as.list(match.call())[-1]
   # Switch case to handle each plot type differently
   switch(args$plot_data$plot_type,
@@ -144,7 +151,7 @@ parse_plots <- function(parsed, options) {
 
   # Plot data is more complex
   parsed$report_plot_data %>%
-    imap(function(plot_data, plot_name) {
+    purrr::imap(function(plot_data, plot_name) {
       # Skip any plot not explicitly given an extractor, it's impossible to infer
       # what type of plot each is
       if (plot_name %in% names(options)) {
@@ -157,5 +164,5 @@ parse_plots <- function(parsed, options) {
       }
     }) %>%
     purrr::flatten() %>%
-    discard(is.null)
+    purrr::discard(is.null)
 }
