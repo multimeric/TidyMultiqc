@@ -35,10 +35,10 @@ parse_raw <- function(parsed) {
         key=sample,
         value = metrics %>% kv_map(function(mvalue, mname) {
         # Sanitise metric names
-        mname <- stringr::str_split(mname, "-")[[1]] %>% last()
+        mname <- stringr::str_split(mname, "-")[[1]] %>% dplyr::last()
         combined_metric <-
         list(
-          key = str_c(tool, mname, sep = "."),
+          key = stringr::str_c(tool, mname, sep = "."),
           value = mvalue
         )
       }, map_keys = T)
@@ -58,7 +58,7 @@ parse_metadata <- function(parsed, samples, find_metadata) {
     purrr::map(function(sample){
     # Find metadata using a user-defined function
     metadata <- find_metadata(sample, parsed) %>%
-      purrr::set_names(~ str_c("metadata", ., sep = "."))
+      purrr::set_names(~ stringr::str_c("metadata", ., sep = "."))
   })
 }
 
@@ -96,10 +96,10 @@ load_multiqc_file <- function(path,
     purrr::map(~ switch(.,
       general = parse_general,
       raw = parse_raw,
-      plots = partial(parse_plots, options = plot_opts)
+      plots = purrr::partial(parse_plots, options = plot_opts)
     )(parsed)) %>%
     purrr::reduce(modifyList) %>%
-    purrr::imap(~ list_merge(.x, metadata.sample_id=.y)) %>%
+    purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y)) %>%
     dplyr::bind_rows()
 }
 

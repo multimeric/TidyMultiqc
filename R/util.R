@@ -12,16 +12,16 @@
 #' c(1, 2, 3) %>% kv_map(function(x) {
 #'   list(key = letters[[x]], value = x)
 #' })
-#' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = str_c(.y, "²"), value = .x), map_keys = T)
+#' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = stringr::str_c(.y, "²"), value = .x), map_keys = T)
 #' @keywords internal
 kv_map <- function(l, func, map_keys = F) {
   mapper <- ifelse(map_keys, purrr::imap, purrr::map)
-  mapped = mapper(l, func) %>% set_names(nm = NULL)
-  keys = mapped %>% map_chr('key')
-  vals = mapped %>% map('value')
-  vals %>% set_names(keys)
+  mapped = mapper(l, func) %>% purrr::set_names(nm = NULL)
+  keys = mapped %>% purrr::map_chr('key')
+  vals = mapped %>% purrr::map('value')
+  vals %>% purrr::set_names(keys)
 }
 
 sanitise_plot_name <- function(name) {
-  str_split(name, " ")[[1]][[1]]
+  stringr::str_split(name, " ")[[1]][[1]]
 }

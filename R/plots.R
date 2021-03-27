@@ -1,7 +1,7 @@
 #' Summary statistic for finding the Q30 of a dataset of quality scores
 #' @export
 stat_q30 = function(vec){
-  cdf = as.cdf(vec)
+  cdf = histdat::as.ecdf(vec)
   # We use just less than 30, because we want P(X >= 30) but 1 - CDF gives us
   # P(X > 30)
   1 - cdf(29.9999)
@@ -33,13 +33,13 @@ extract_ignore_x <- function(data) {
 #' @export
 extract_histogram <- function(data, as_hist_dat=T) {
   df = unlist(data) %>% matrix(byrow=T, ncol=2)
-  his = hist_dat(vals=df[, 1], counts = df[, 2])
-  
+  his = histdat::hist_dat(vals=df[, 1], counts = df[, 2])
+
   if (as_hist_dat){
     his
   }
   else {
-    as.vector(his)
+    histdat::as.vector(his)
   }
 }
 
@@ -65,7 +65,7 @@ parse_xyline_plot = function(
             kv_map(function(summariser, key){
               # We let the user rename this plot
               # Also, combine the plot name with the summary stat name
-              new_key = str_c(prefix, key, sep='.')
+              new_key = stringr::str_c(prefix, key, sep='.')
               list(
                 key=new_key,
                 value = summariser(extracted)
@@ -103,7 +103,7 @@ parse_bar_graph = function(
         kv_map(function(value, idx){
           list(
             key=samples[[idx]],
-            value=list(value) %>% set_names(str_c(prefix, segment_name, sep='.'))
+            value=list(value) %>% purrr::set_names(stringr::str_c(prefix, segment_name, sep='.'))
           )
         }, map_keys = T)
     }) %>%
@@ -129,15 +129,15 @@ parse_plot_features <- function(
   assertthat::has_name(plot_data, 'datasets')
   assertthat::not_empty(names(summary))
   assertthat::is.string(prefix)
-  assertthat::assert_that(is_callable(extractor))
-  
+  assertthat::assert_that(rlang::is_callable(extractor))
+
   args = as.list(match.call())[-1]
   # Switch case to handle each plot type differently
   switch(args$plot_data$plot_type,
     # For unknown plots, do nothing
     function() {},
-    xy_line = partial(parse_xyline_plot, !!!args),
-    bar_graph = partial(parse_bar_graph, !!!args)
+    xy_line = purrr::partial(parse_xyline_plot, !!!args),
+    bar_graph = purrr::partial(parse_bar_graph, !!!args)
   )()
 }
 
@@ -160,7 +160,7 @@ parse_plots <- function(parsed, options) {
         if (!'prefix' %in% names(opts)){
           opts$prefix = plot_name
         }
-        exec(parse_plot_features, plot_data=plot_data, !!!opts)
+        rlang::exec(parse_plot_features, plot_data=plot_data, !!!opts)
       }
     }) %>%
     purrr::flatten() %>%
