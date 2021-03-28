@@ -67,11 +67,21 @@ parse_raw <- function(parsed) {
 #' @keywords internal
 parse_metadata <- function(parsed, samples, find_metadata) {
   samples %>%
-    purrr::map(function(sample){
-    # Find metadata using a user-defined function
-    metadata <- find_metadata(sample, parsed) %>%
-      purrr::set_names(~ stringr::str_c("metadata", ., sep = "."))
-  })
+    kv_map(function(sample) {
+      # Find metadata using a user-defined function
+      metadata = find_metadata(sample, parsed)
+
+      if (length(metadata) > 0){
+        metadata = metadata %>% purrr::set_names(function(name) {
+            stringr::str_c("metadata", name, sep = ".")
+        })
+      }
+
+      list(
+        key = sample,
+        value = metadata
+      )
+    })
 }
 
 #' Loads one or more MultiQCs report into a data frame
@@ -90,7 +100,7 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #'   unwieldy names for its plot, so this lets you rename it}
 #' }
 #' @param find_metadata A function that will be called with a sample name and the
-#' parsed JSON and returns a list of metadata fields for the sample
+#' parsed JSON and returns a named list of metadata fields for the sample
 #' @param sections List of the sections to include in the output: 'plots'
 #' in the list means parse plot data, 'general' means parse the general stats
 #' section, and 'raw' means parse the raw data section
@@ -100,21 +110,28 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #' @return A tibble with QC data and metadata as columns, and samples as rows
 load_multiqc <- function(paths,
                               plot_opts = list(),
-                              find_metadata = list,
+                              find_metadata = function(...){ list() },
                               sections = "general") {
 
+  # Vectorised over paths
   paths %>%
-    purrr::map(function(path){
+    purrr::map_dfr(function(path){
       parsed <- jsonlite::read_json(path)
-      sections %>%
+
+      # The main data is plots/general/raw
+      main_data = sections %>%
         purrr::map(~ switch(.,
                             general = parse_general,
                             raw = parse_raw,
                             plots = purrr::partial(parse_plots, options = plot_opts)
         )(parsed)) %>%
         purrr::reduce(~purrr::list_merge(.x, !!!.y), .init = list()) %>%
-        purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y)) %>%
+        purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y))
+
+      # Metadata is defined by a user function
+      metadata = parse_metadata(parsed = parsed, samples = names(main_data), find_metadata = find_metadata)
+
+      purrr::list_merge(main_data, !!!metadata) %>%
         dplyr::bind_rows()
-    }) %>%
-    dplyr::bind_rows()
+    })
 }
