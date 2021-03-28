@@ -1,3 +1,15 @@
+#' MultiqcAnalyse: A package for computating the notorious bar statistic
+#'
+#' The foo package provides three categories of important functions:
+#' foo, bar and baz.
+#'
+#' @section Foo functions:
+#' The foo functions ...
+#' @importFrom magrittr `%>%`
+#' @docType package
+#' @name MultiqcAnalyse
+NULL
+
 #' Parses the "general_stats_data" section
 #'
 #' @param parsed The full parsed multiqc JSON file
@@ -16,7 +28,7 @@ parse_general <- function(parsed) {
         }, map_keys = T)
       })
     }) %>%
-    purrr::flatten()
+    purrr::reduce(~purrr::list_merge(.x, !!!.y))
 }
 
 #' Parses the "report_saved_raw_data" section
@@ -62,9 +74,9 @@ parse_metadata <- function(parsed, samples, find_metadata) {
   })
 }
 
-#' Loads a MultiQC report into a data frame
+#' Loads one or more MultiQCs report into a data frame
 #'
-#' @param path The filepath of the multiqc_data.json
+#' @param path A vector of filepaths to multiqc_data.json files
 #' @param plot_opts A list mapping the internal MultiQC plot name, e.g.
 #' "fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
 #' The list can have the following keys:
@@ -86,32 +98,23 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #' @export
 #'
 #' @return A tibble with QC data and metadata as columns, and samples as rows
-load_multiqc_file <- function(path,
+load_multiqc <- function(paths,
                               plot_opts = list(),
                               find_metadata = list,
                               sections = "general") {
-  parsed <- jsonlite::read_json(path)
 
-  sections %>%
-    purrr::map(~ switch(.,
-      general = parse_general,
-      raw = parse_raw,
-      plots = purrr::partial(parse_plots, options = plot_opts)
-    )(parsed)) %>%
-    purrr::reduce(modifyList) %>%
-    purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y)) %>%
-    dplyr::bind_rows()
-}
-
-
-#' Loads a collection of MultiQC JSON files
-#'
-#' @param paths A vector of paths to MultiQC JSON files
-#' @param ... Args to pass to load_multiqc_file
-#' @return A tibble, see load_multiqc_file
-#' @export
-load_multiqc <- function(paths, ...) {
-  purrr::map(paths, load_multiqc_file, ...) %>%
-    purrr::flatten() %>%
+  paths %>%
+    purrr::map(function(path){
+      parsed <- jsonlite::read_json(path)
+      sections %>%
+        purrr::map(~ switch(.,
+                            general = parse_general,
+                            raw = parse_raw,
+                            plots = purrr::partial(parse_plots, options = plot_opts)
+        )(parsed)) %>%
+        purrr::reduce(~purrr::list_merge(.x, !!!.y), .init = list()) %>%
+        purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y)) %>%
+        dplyr::bind_rows()
+    }) %>%
     dplyr::bind_rows()
 }

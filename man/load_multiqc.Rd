@@ -2,18 +2,41 @@
 % Please edit documentation in R/multiqc.R
 \name{load_multiqc}
 \alias{load_multiqc}
-\title{Loads a collection of MultiQC JSON files}
+\title{Loads one or more MultiQCs report into a data frame}
 \usage{
-load_multiqc(paths, ...)
+load_multiqc(
+  paths,
+  plot_opts = list(),
+  find_metadata = list,
+  sections = "general"
+)
 }
 \arguments{
-\item{paths}{A vector of paths to MultiQC JSON files}
+\item{plot_opts}{A list mapping the internal MultiQC plot name, e.g.
+"fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
+The list can have the following keys:
+\describe{
+  \item{$extractor}{Mandatory. A function which converts the raw plot JSON
+  into a vector. Often you will want to use a built-in `extract_x`
+  function provided by this package}
+  \item{$summary}{A function that maps a vector to a scalar, to "summarise"
+  it. For example, you might want to use the `mean` function}
+  \item{$prefix}{A new name for this plot. MultiQC sometimes has some
+  unwieldy names for its plot, so this lets you rename it}
+}}
 
-\item{...}{Args to pass to load_multiqc_file}
+\item{find_metadata}{A function that will be called with a sample name and the
+parsed JSON and returns a list of metadata fields for the sample}
+
+\item{sections}{List of the sections to include in the output: 'plots'
+in the list means parse plot data, 'general' means parse the general stats
+section, and 'raw' means parse the raw data section}
+
+\item{path}{A vector of filepaths to multiqc_data.json files}
 }
 \value{
-A tibble, see load_multiqc_file
+A tibble with QC data and metadata as columns, and samples as rows
 }
 \description{
-Loads a collection of MultiQC JSON files
+Loads one or more MultiQCs report into a data frame
 }

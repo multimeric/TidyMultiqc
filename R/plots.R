@@ -77,7 +77,7 @@ parse_xyline_plot = function(
           )
         })
     }) %>%
-    purrr::flatten()
+    purrr::reduce(~purrr::list_merge(.x, !!!.y))
 }
 
 #' Takes the JSON dictionary for a bar graph, and returns a list of lists
@@ -93,7 +93,7 @@ parse_bar_graph = function(
   assertthat::assert_that(plot_data$plot_type == 'bar_graph')
 
   # Make a list of samples
-  samples = plot_data$samples[[1]] %>% flatten_chr()
+  samples = plot_data$samples[[1]] %>% purrr::flatten_chr()
 
   plot_data$datasets[[1]] %>%
     purrr::map(function(dataset){

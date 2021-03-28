@@ -27,6 +27,6 @@ c(1, 2, 3) \%>\% kv_map(~ list(key = letters[[.]], value = .))
 c(1, 2, 3) \%>\% kv_map(function(x) {
   list(key = letters[[x]], value = x)
 })
-c(a = 1, b = 2, c = 3) \%>\% kv_map(~ list(key = str_c(.y, "²"), value = .x), map_keys = T)
+c(a = 1, b = 2, c = 3) \%>\% kv_map(~ list(key = stringr::str_c(.y, "²"), value = .x), map_keys = T)
 }
 \keyword{internal}

@@ -5,7 +5,7 @@
 \title{Extractor function that calculates statistics for a histogram. For example
 this might be relevant for the}
 \usage{
-extract_histogram(data)
+extract_histogram(data, as_hist_dat = T)
 }
 \description{
 Extractor function that calculates statistics for a histogram. For example

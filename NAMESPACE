@@ -3,6 +3,6 @@
 export(extract_histogram)
 export(extract_ignore_x)
 export(load_multiqc)
-export(load_multiqc_file)
 export(parse_plot_features)
 export(stat_q30)
+importFrom(magrittr,`%>%`)
