@@ -1,48 +1,4 @@
-#' Summary statistic for finding the Q30 of a dataset of quality scores
-#' @export
-stat_q30 = function(vec){
-  cdf = histdat::as.ecdf(vec)
-  # We use just less than 30, because we want P(X >= 30) but 1 - CDF gives us
-  # P(X > 30)
-  1 - cdf(29.9999)
-}
-
-#' Extractor function that ignores the x-axis and applies statistics over the
-#' y-values. For example this might be relevant for a mean per-base fastq
-#' quality score. This will let you then calculate the overall mean quality of
-#' the reads.
-#' @export
-extract_ignore_x <- function(data) {
-  purrr::map_dbl(
-    data, function(point) {
-      if (length(point) == 1) {
-        point[[1]]
-      }
-      else if (length(point) == 2) {
-        point[[2]]
-      }
-      else {
-        NaN
-      }
-    }
-  )
-}
-
-#' Extractor function that calculates statistics for a histogram. For example
-#' this might be relevant for the
-#' @export
-extract_histogram <- function(data, as_hist_dat=T) {
-  df = unlist(data) %>% matrix(byrow=T, ncol=2)
-  his = histdat::hist_dat(vals=df[, 1], counts = df[, 2])
-
-  if (as_hist_dat){
-    his
-  }
-  else {
-    histdat::as.vector(his)
-  }
-}
-
+# Internal plot parsing functions
 
 #' Takes the JSON dictionary for an xyline plot, and returns a list of lists
 #' of quality metrics
@@ -107,7 +63,7 @@ parse_bar_graph = function(
           )
         }, map_keys = T)
     }) %>%
-      purrr::reduce(modifyList)
+      purrr::reduce(utils::modifyList)
 }
 
 #' Returns a list of summary statistics for a plotly plot, provided as a list

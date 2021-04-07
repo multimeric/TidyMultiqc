@@ -1,3 +1,5 @@
+# Tests for the 1000 genomes test files
+
 test_that("We can parse the general section", {
   report <- load_multiqc("HG00096/multiqc_data.json", sections = 'general')
 

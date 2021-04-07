@@ -8,11 +8,14 @@
 #' @param map_keys logical. If TRUE, then use `imap` which provides the keys as the second element to the function
 #'
 #' @examples
+#' \dontrun{
+#' library(magrittr)
 #' c(1, 2, 3) %>% kv_map(~ list(key = letters[[.]], value = .))
 #' c(1, 2, 3) %>% kv_map(function(x) {
 #'   list(key = letters[[x]], value = x)
 #' })
 #' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = stringr::str_c(.y, "²"), value = .x), map_keys = T)
+#' }
 #' @keywords internal
 kv_map <- function(l, func, map_keys = F) {
   mapper <- ifelse(map_keys, purrr::imap, purrr::map)

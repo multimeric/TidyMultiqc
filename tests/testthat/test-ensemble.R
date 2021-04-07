@@ -1,4 +1,4 @@
-# Tests for multiple files together
+# Tests for simultaneously loading multiple files from different sources
 
 test_that("We can combine two multiqc reports with unrelated columns", {
   report = load_multiqc(

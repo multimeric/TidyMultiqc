@@ -7,36 +7,53 @@
 load_multiqc(
   paths,
   plot_opts = list(),
-  find_metadata = list,
+  find_metadata = function(...) {     list() },
   sections = "general"
 )
 }
 \arguments{
-\item{plot_opts}{A list mapping the internal MultiQC plot name, e.g.
+\item{paths}{A vector of filepaths to multiqc_data.json files}
+
+\item{plot_opts}{A named list mapping the internal MultiQC plot name, e.g.
 "fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
 The list can have the following keys:
 \describe{
-  \item{$extractor}{Mandatory. A function which converts the raw plot JSON
-  into a vector. Often you will want to use a built-in `extract_x`
-  function provided by this package}
-  \item{$summary}{A function that maps a vector to a scalar, to "summarise"
-  it. For example, you might want to use the `mean` function}
-  \item{$prefix}{A new name for this plot. MultiQC sometimes has some
-  unwieldy names for its plot, so this lets you rename it}
+\item{extractor}{Mandatory for scatter/line plots, ignored for bar graphs.
+A function which converts the raw plot JSON into a some kind of data,
+usually a vector. Often you will want to use a built-in \code{extract_x}
+functions provided by this package}
+\item{summary}{A named list of functions that each map the output from
+the extractor function (usually a 1-D vector) to a scalar, to "summarise"
+it. For example, you might want to use the \code{\link[base:mean]{base::mean()}} function to
+summarise the plot. See also the \code{summary_x} functions in this package.}
+\item{prefix}{Optional. A new name for this plot. MultiQC sometimes has
+some unwieldy names for its plot, so this lets you rename them}
 }}
 
 \item{find_metadata}{A function that will be called with a sample name and the
-parsed JSON and returns a list of metadata fields for the sample}
+parsed JSON and returns a named list of metadata fields for the sample}
 
-\item{sections}{List of the sections to include in the output: 'plots'
+\item{sections}{Vector of the sections to include in the output: 'plots'
 in the list means parse plot data, 'general' means parse the general stats
-section, and 'raw' means parse the raw data section}
-
-\item{path}{A vector of filepaths to multiqc_data.json files}
+section, and 'raw' means parse the raw data section. This defaults to
+'general', which tends to contain the most useful statistics}
 }
 \value{
 A tibble with QC data and metadata as columns, and samples as rows
 }
 \description{
 Loads one or more MultiQCs report into a data frame
+}
+\examples{
+load_multiqc(
+  "tests/testthat/wgs/multiqc_data.json",
+  sections = c("plots", 'general', 'raw'),
+  plot_opts=list(
+    fastqc_per_sequence_quality_scores_plot = list(
+      summary=list(`\%q30`=summary_q30),
+      extractor=extract_histogram,
+      prefix='quality'
+    )
+  )
+)
 }

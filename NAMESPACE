@@ -2,7 +2,9 @@
 
 export(extract_histogram)
 export(extract_ignore_x)
+export(extract_xy)
 export(load_multiqc)
 export(parse_plot_features)
-export(stat_q30)
+export(summary_extract_df)
+export(summary_q30)
 importFrom(magrittr,`%>%`)

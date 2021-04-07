@@ -1,4 +1,4 @@
 library(testthat)
-library(multiqc)
+library(TidyMultiqc)
 
-test_check("multiqc")
+test_check("TidyMultiqc")

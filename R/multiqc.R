@@ -1,19 +1,31 @@
-#' MultiqcAnalyse: A package for computating the notorious bar statistic
-#'
-#' The foo package provides three categories of important functions:
-#' foo, bar and baz.
-#'
-#' @section Foo functions:
-#' The foo functions ...
+#' TidyMultiqc: Converting MultiQC reports into tidy data frames
+#' @description This package provides the means to convert `multiqc_data.json`
+#' files, produced by the wonderful [MultiQC](http://multiqc.info/) tool,
+#' into tidy data.frames for downstream analysis in R. This analysis might
+#' involve cohort analysis, quality control visualisation, changepoint detection,
+#' statistical process control, clustering, or any other type of quality analysis.
+#' @section Core API:
+#' The public API to this package
+#' * [load_multiqc()]
+#' @section Plot Extractor Functions:
+#' These functions can be used as arguments to [load_multiqc()] to specify
+#' how to extract data from MultiQC plots
+#' * [extract_ignore_x()]
+#' * [extract_xy()]
+#' * [extract_histogram()]
+#' @section Summary Functions:
+#' These are also passed as arguments to [load_multiqc()].
+#' In most cases you can use normal summary statistics like [base::mean()],
+#' but these are some other useful ones you might want.
+#' * [summary_q30()]
+#' * [summary_extract_df()]
 #' @importFrom magrittr `%>%`
 #' @docType package
-#' @name MultiqcAnalyse
+#' @name TidyMultiqc-package
 NULL
 
 #' Parses the "general_stats_data" section
-#'
 #' @param parsed The full parsed multiqc JSON file
-#'
 #' @return A list of samples, each of which has a list of metrics
 #' @keywords internal
 parse_general <- function(parsed) {
@@ -56,7 +68,7 @@ parse_raw <- function(parsed) {
       }, map_keys = T)
       )
     }, map_keys = T)
-  }) %>% purrr::reduce(modifyList)
+  }) %>% purrr::reduce(utils::modifyList)
 }
 
 
@@ -86,28 +98,42 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 
 #' Loads one or more MultiQCs report into a data frame
 #'
-#' @param path A vector of filepaths to multiqc_data.json files
-#' @param plot_opts A list mapping the internal MultiQC plot name, e.g.
+#' @param paths A vector of filepaths to multiqc_data.json files
+#' @param plot_opts A named list mapping the internal MultiQC plot name, e.g.
 #' "fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
 #' The list can have the following keys:
 #' \describe{
-#'   \item{$extractor}{Mandatory. A function which converts the raw plot JSON
-#'   into a vector. Often you will want to use a built-in `extract_x`
-#'   function provided by this package}
-#'   \item{$summary}{A function that maps a vector to a scalar, to "summarise"
-#'   it. For example, you might want to use the `mean` function}
-#'   \item{$prefix}{A new name for this plot. MultiQC sometimes has some
-#'   unwieldy names for its plot, so this lets you rename it}
+#'   \item{extractor}{Mandatory for scatter/line plots, ignored for bar graphs.
+#'   A function which converts the raw plot JSON into a some kind of data,
+#'   usually a vector. Often you will want to use a built-in `extract_x`
+#'   functions provided by this package}
+#'   \item{summary}{A named list of functions that each map the output from
+#'   the extractor function (usually a 1-D vector) to a scalar, to "summarise"
+#'   it. For example, you might want to use the [base::mean()] function to
+#'   summarise the plot. See also the `summary_x` functions in this package.}
+#'   \item{prefix}{Optional. A new name for this plot. MultiQC sometimes has
+#'   some unwieldy names for its plot, so this lets you rename them}
 #' }
 #' @param find_metadata A function that will be called with a sample name and the
 #' parsed JSON and returns a named list of metadata fields for the sample
-#' @param sections List of the sections to include in the output: 'plots'
+#' @param sections Vector of the sections to include in the output: 'plots'
 #' in the list means parse plot data, 'general' means parse the general stats
-#' section, and 'raw' means parse the raw data section
-#'
+#' section, and 'raw' means parse the raw data section. This defaults to
+#' 'general', which tends to contain the most useful statistics
 #' @export
-#'
 #' @return A tibble with QC data and metadata as columns, and samples as rows
+#' @examples
+#' load_multiqc(
+#'   "tests/testthat/wgs/multiqc_data.json",
+#'   sections = c("plots", 'general', 'raw'),
+#'   plot_opts=list(
+#'     fastqc_per_sequence_quality_scores_plot = list(
+#'       summary=list(`%q30`=summary_q30),
+#'       extractor=extract_histogram,
+#'       prefix='quality'
+#'     )
+#'   )
+#' )
 load_multiqc <- function(paths,
                               plot_opts = list(),
                               find_metadata = function(...){ list() },
