@@ -37,9 +37,9 @@ extract_ignore_x <- function(data) {
 #' @return A tibble with the "x" column corresponding to the x-values in the
 #' plot, and a "y" column corresponding to the y-values in the plot.
 #' @family extractors
-extract_xy = function(data){
+extract_xy <- function(data) {
   data %>%
-    purrr::map(~purrr::set_names(., c("x", "y"))) %>%
+    purrr::map(~ purrr::set_names(., c("x", "y"))) %>%
     dplyr::bind_rows()
 }
 
@@ -56,14 +56,13 @@ extract_xy = function(data){
 #' interpreter with large counts in the histogram.
 #' @return A single [HistDat::HistDat-class] instance, or a 1-D numeric vector
 #' @family extractors
-extract_histogram <- function(data, as_hist_dat=T) {
-  df = unlist(data) %>% matrix(byrow=T, ncol=2)
-  his = HistDat::HistDat(vals=df[, 1], counts = df[, 2])
+extract_histogram <- function(data, as_hist_dat = T) {
+  df <- unlist(data) %>% matrix(byrow = T, ncol = 2)
+  his <- HistDat::HistDat(vals = df[, 1], counts = df[, 2])
 
-  if (as_hist_dat){
+  if (as_hist_dat) {
     his
-  }
-  else {
-    HistDat::as.vector(his)
+  } else {
+    as.vector(his)
   }
 }

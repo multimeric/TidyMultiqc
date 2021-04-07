@@ -6,8 +6,8 @@
 #' @param vec Either a [HistDat::HistDat-class] or a 1-D numeric vector
 #' @return The %Q30 of the dataset, as a numeric of length 1
 #' @export
-summary_q30 = function(vec){
-  cdf = HistDat::as.ecdf(vec)
+summary_q30 <- function(vec) {
+  cdf <- HistDat::as.ecdf(vec)
   # We use just less than 30, because we want P(X >= 30) but 1 - CDF gives us
   # P(X > 30)
   1 - cdf(29.9999)
@@ -25,7 +25,9 @@ summary_q30 = function(vec){
 #' @param col A column name, either "x" or "y"
 #' @return The value in a single cell of the data.frame
 #' @export
-summary_extract_df = function(df, row_select, col='y'){
-  row_select = rlang::enquo(row_select)
-  df %>% dplyr::filter(!!row_select) %>% dplyr::pull(col)
+summary_extract_df <- function(df, row_select, col = "y") {
+  row_select <- rlang::enquo(row_select)
+  df %>%
+    dplyr::filter(!!row_select) %>%
+    dplyr::pull(col)
 }

@@ -19,12 +19,18 @@
 #' @keywords internal
 kv_map <- function(l, func, map_keys = F) {
   mapper <- ifelse(map_keys, purrr::imap, purrr::map)
-  mapped = mapper(l, func) %>% purrr::set_names(nm = NULL)
-  keys = mapped %>% purrr::map_chr('key')
-  vals = mapped %>% purrr::map('value')
+  mapped <- mapper(l, func) %>% purrr::set_names(nm = NULL)
+  keys <- mapped %>% purrr::map_chr("key")
+  vals <- mapped %>% purrr::map("value")
   vals %>% purrr::set_names(keys)
 }
 
-sanitise_plot_name <- function(name) {
-  stringr::str_split(name, " ")[[1]][[1]]
+#' Converts a MultiQC string into a standardised identifier for the final
+#' data frame
+#' @keywords internal
+sanitise_column_name <- function(name) {
+  name %>%
+    stringr::str_replace_all(pattern = "[- ]", replacement = "_") %>% # Any dividing characters become underscores
+    stringr::str_remove_all(pattern = "[^\\w%_]") %>% # Any special characters bar underscore and % get deleted
+    stringr::str_to_lower()
 }

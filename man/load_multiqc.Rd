@@ -46,13 +46,13 @@ Loads one or more MultiQCs report into a data frame
 }
 \examples{
 load_multiqc(
-  "tests/testthat/wgs/multiqc_data.json",
-  sections = c("plots", 'general', 'raw'),
-  plot_opts=list(
+  system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
+  sections = c("plots", "general", "raw"),
+  plot_opts = list(
     fastqc_per_sequence_quality_scores_plot = list(
-      summary=list(`\%q30`=summary_q30),
-      extractor=extract_histogram,
-      prefix='quality'
+      summary = list(`\%q30` = summary_q30),
+      extractor = extract_histogram,
+      prefix = "quality"
     )
   )
 )

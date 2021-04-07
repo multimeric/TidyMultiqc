@@ -34,13 +34,14 @@ parse_general <- function(parsed) {
       inner %>% purrr::imap(function(sample_data, sample) {
         sample_data %>% kv_map(function(mvalue, mname) {
           list(
-            key = stringr::str_c("general", mname, sep = "."),
+            # Add the "general" prefix here for general stats
+            key = stringr::str_c("general", sanitise_column_name(mname), sep = "."),
             value = mvalue
           )
         }, map_keys = T)
       })
     }) %>%
-    purrr::reduce(~purrr::list_merge(.x, !!!.y))
+    purrr::reduce(~ purrr::list_merge(.x, !!!.y))
 }
 
 #' Parses the "report_saved_raw_data" section
@@ -51,26 +52,31 @@ parse_general <- function(parsed) {
 #' @keywords internal
 parse_raw <- function(parsed) {
   # For each tool
-  parsed$report_saved_raw_data %>% purrr::imap(function(samples, tool) {
-    # For each sample
-    samples %>% kv_map(function(metrics, sample) {
-      # For each metric in the above tool
-      list(
-        key=sample,
-        value = metrics %>% kv_map(function(mvalue, mname) {
-        # Sanitise metric names
-        mname <- stringr::str_split(mname, "-")[[1]] %>% dplyr::last()
-        combined_metric <-
+  parsed$report_saved_raw_data %>%
+    purrr::imap(function(samples, tool) {
+      # Remove the superflous "multiqc_" from the start of the tool name
+      tool <- stringr::str_remove(tool, "multiqc_")
+
+      # For each sample
+      samples %>% kv_map(function(metrics, sample) {
+        # For each metric in the above tool
         list(
-          key = stringr::str_c(tool, mname, sep = "."),
-          value = mvalue
+          key = sample,
+          value = metrics %>% kv_map(function(mvalue, mname) {
+            # Sanitise metric names
+            mname <- stringr::str_split(mname, "-")[[1]] %>% dplyr::last()
+            combined_metric <-
+              list(
+                # Add the "raw" prefix here for raw stats
+                key = stringr::str_c("raw", sanitise_column_name(tool), sanitise_column_name(mname), sep = "."),
+                value = mvalue
+              )
+          }, map_keys = T)
         )
       }, map_keys = T)
-      )
-    }, map_keys = T)
-  }) %>% purrr::reduce(utils::modifyList)
+    }) %>%
+    purrr::reduce(utils::modifyList)
 }
-
 
 #' Parses metadata using a user-supplied function
 #'
@@ -81,11 +87,11 @@ parse_metadata <- function(parsed, samples, find_metadata) {
   samples %>%
     kv_map(function(sample) {
       # Find metadata using a user-defined function
-      metadata = find_metadata(sample, parsed)
+      metadata <- find_metadata(sample, parsed)
 
-      if (length(metadata) > 0){
-        metadata = metadata %>% purrr::set_names(function(name) {
-            stringr::str_c("metadata", name, sep = ".")
+      if (length(metadata) > 0) {
+        metadata <- metadata %>% purrr::set_names(function(name) {
+          stringr::str_c("metadata", name, sep = ".")
         })
       }
 
@@ -124,40 +130,48 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #' @return A tibble with QC data and metadata as columns, and samples as rows
 #' @examples
 #' load_multiqc(
-#'   "tests/testthat/wgs/multiqc_data.json",
-#'   sections = c("plots", 'general', 'raw'),
-#'   plot_opts=list(
+#'   system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
+#'   sections = c("plots", "general", "raw"),
+#'   plot_opts = list(
 #'     fastqc_per_sequence_quality_scores_plot = list(
-#'       summary=list(`%q30`=summary_q30),
-#'       extractor=extract_histogram,
-#'       prefix='quality'
+#'       summary = list(`%q30` = summary_q30),
+#'       extractor = extract_histogram,
+#'       prefix = "quality"
 #'     )
 #'   )
 #' )
 load_multiqc <- function(paths,
-                              plot_opts = list(),
-                              find_metadata = function(...){ list() },
-                              sections = "general") {
+                         plot_opts = list(),
+                         find_metadata = function(...) {
+                           list()
+                         },
+                         sections = "general") {
+  assertthat::assert_that(all(sections %in% c(
+    "general", "plots", "raw"
+  )), msg = "Only 'general', 'plots' and 'raw' (and combinations of those) are valid items for the sections parameter")
 
   # Vectorised over paths
   paths %>%
-    purrr::map_dfr(function(path){
+    purrr::map_dfr(function(path) {
       parsed <- jsonlite::read_json(path)
 
       # The main data is plots/general/raw
-      main_data = sections %>%
+      main_data <- sections %>%
         purrr::map(~ switch(.,
-                            general = parse_general,
-                            raw = parse_raw,
-                            plots = purrr::partial(parse_plots, options = plot_opts)
+          general = parse_general,
+          raw = parse_raw,
+          plots = purrr::partial(parse_plots, options = plot_opts)
         )(parsed)) %>%
-        purrr::reduce(~purrr::list_merge(.x, !!!.y), .init = list()) %>%
-        purrr::imap(~ purrr::list_merge(.x, metadata.sample_id=.y))
+        purrr::reduce(~ purrr::list_merge(.x, !!!.y), .init = list()) %>%
+        purrr::imap(~ purrr::list_merge(.x, metadata.sample_id = .y))
 
       # Metadata is defined by a user function
-      metadata = parse_metadata(parsed = parsed, samples = names(main_data), find_metadata = find_metadata)
+      metadata <- parse_metadata(parsed = parsed, samples = names(main_data), find_metadata = find_metadata)
 
-      purrr::list_merge(main_data, !!!metadata) %>%
+      purrr::list_merge(metadata, !!!main_data) %>%
         dplyr::bind_rows()
-    })
+    }) %>%
+    # Move the columns into the order: metadata, general, plots, raw
+    dplyr::relocate(dplyr::starts_with("metadata")) %>%
+    dplyr::relocate(dplyr::starts_with("raw"), .after = dplyr::last_col())
 }

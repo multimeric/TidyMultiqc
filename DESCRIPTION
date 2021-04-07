@@ -1,10 +1,14 @@
 Package: TidyMultiqc
 Type: Package
-Title: R Parser for MultiQC
+Title: Converts 'MultiQC' Reports into Tidy Data Frames
 Version: 0.1.0
 Author: Michael Milton
 Maintainer: Michael Milton <michael.r.milton@gmail.com>
-Description: Converts MultiQC reports into data formats suited to analysis in R
+Description: Provides the means to convert 'multiqc_data.json' files,
+    produced by the wonderful 'MultiQC' tool, into tidy data frames for downstream
+    analysis in R. This analysis might involve cohort analysis, quality control visualisation,
+    change-point detection, statistical process control, clustering, or any other
+    type of quality analysis.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -20,7 +24,11 @@ Imports:
     tibble
 Suggests: 
     tidyr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    ggplot2
 Config/testthat/edition: 3
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr

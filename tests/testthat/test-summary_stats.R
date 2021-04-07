@@ -9,9 +9,9 @@ test_that("the Q30 function works", {
 
 
 test_that("the summary_extract_df function works", {
-  df = bind_cols(
-    x=1:5,
-    y=1:5
+  df <- bind_cols(
+    x = 1:5,
+    y = 1:5
   )
   expect_equal(
     summary_extract_df(df = df, row_select = x == 2),
