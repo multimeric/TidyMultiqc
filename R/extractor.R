@@ -10,6 +10,18 @@
 #' @return A 1-D numeric vector of y-values from the plot
 #' @export
 #' @family extractors
+#' @examples
+#' report <- load_multiqc(
+#'    system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
+#'    sections = "plots",
+#'    plot_opts = list(
+#'      `fastqc_per_base_sequence_quality_plot` = list(
+#'        extractor = extract_ignore_x,
+#'        summary = list(mean = mean),
+#'        prefix = "quality"
+#'      )
+#'    )
+#' )
 extract_ignore_x <- function(data) {
   purrr::map_dbl(
     data, function(point) {
@@ -37,6 +49,19 @@ extract_ignore_x <- function(data) {
 #' @return A tibble with the "x" column corresponding to the x-values in the
 #' plot, and a "y" column corresponding to the y-values in the plot.
 #' @family extractors
+#' @examples
+#' report <- load_multiqc(
+#'   system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
+#'   sections = "plots",
+#'   plot_opts = list(
+#'     qualimap_genome_fraction = list(
+#'       extractor = extract_xy,
+#'       summary = list(
+#'         `%Q30` = purrr::partial(summary_extract_df, row_select = x == 30)
+#'       )
+#'     )
+#'   )
+#' )
 extract_xy <- function(data) {
   data %>%
     purrr::map(~ purrr::set_names(., c("x", "y"))) %>%
@@ -56,8 +81,20 @@ extract_xy <- function(data) {
 #' interpreter with large counts in the histogram.
 #' @return A single [HistDat::HistDat-class] instance, or a 1-D numeric vector
 #' @family extractors
-extract_histogram <- function(data, as_hist_dat = T) {
-  df <- unlist(data) %>% matrix(byrow = T, ncol = 2)
+#' @examples
+#' report <- load_multiqc(
+#'   system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
+#'   sections = "plots",
+#'   plot_opts = list(
+#'     `fastqc_per_sequence_quality_scores_plot` = list(
+#'       extractor = extract_histogram,
+#'       summary = list(mean = mean),
+#'       prefix = "quality"
+#'     )
+#'   )
+#' )
+extract_histogram <- function(data, as_hist_dat = TRUE) {
+  df <- unlist(data) %>% matrix(byrow = TRUE, ncol = 2)
   his <- HistDat::HistDat(vals = df[, 1], counts = df[, 2])
 
   if (as_hist_dat) {

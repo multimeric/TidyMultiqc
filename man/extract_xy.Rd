@@ -24,6 +24,20 @@ function cannot use ordinary summary statistics like \code{mean}, \code{median} 
 If you want to do that, look into the other extractors. Instead, you will
 need summary functions that pull out a single value from the data.frame.
 }
+\examples{
+report <- load_multiqc(
+  system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
+  sections = "plots",
+  plot_opts = list(
+    qualimap_genome_fraction = list(
+      extractor = extract_xy,
+      summary = list(
+        `\%Q30` = purrr::partial(summary_extract_df, row_select = x == 30)
+      )
+    )
+  )
+)
+}
 \seealso{
 Other extractors: 
 \code{\link{extract_histogram}()},

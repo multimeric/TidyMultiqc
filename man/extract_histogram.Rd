@@ -4,7 +4,7 @@
 \alias{extract_histogram}
 \title{Extractor function that calculates statistics for a histogram.}
 \usage{
-extract_histogram(data, as_hist_dat = T)
+extract_histogram(data, as_hist_dat = TRUE)
 }
 \arguments{
 \item{data}{Provided internally, users don't need to provide this.}
@@ -25,6 +25,19 @@ For example this might be relevant for the "Coverage histogram" plot
 from Qualimap. By default this returns a \link[HistDat:HistDat-class]{HistDat::HistDat} instance,
 which is compatible with most common summary statistics (\code{mean}, \code{quantile}, etc),
 so your summary statistic functions can be ordinary R functions.
+}
+\examples{
+report <- load_multiqc(
+  system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
+  sections = "plots",
+  plot_opts = list(
+    `fastqc_per_sequence_quality_scores_plot` = list(
+      extractor = extract_histogram,
+      summary = list(mean = mean),
+      prefix = "quality"
+    )
+  )
+)
 }
 \seealso{
 Other extractors: 

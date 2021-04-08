@@ -3,6 +3,7 @@
 #' Takes the JSON dictionary for an xyline plot, and returns a list of lists
 #' of quality metrics
 #' @keywords internal
+#' @noRd
 parse_xyline_plot <- function(plot_data,
                               prefix,
                               extractor,
@@ -24,7 +25,7 @@ parse_xyline_plot <- function(plot_data,
                 key = new_key,
                 value = summariser(extracted)
               )
-            }, map_keys = T)
+            }, map_keys = TRUE)
           list(
             key = subdataset$name,
             value = stats
@@ -37,6 +38,7 @@ parse_xyline_plot <- function(plot_data,
 #' Takes the JSON dictionary for a bar graph, and returns a list of lists
 #' of quality metrics
 #' @keywords internal
+#' @noRd
 parse_bar_graph <- function(plot_data,
                             prefix,
                             extractor,
@@ -57,21 +59,36 @@ parse_bar_graph <- function(plot_data,
             key = samples[[idx]],
             value = list(value) %>% purrr::set_names(stringr::str_c("plot", sanitise_column_name(prefix), sanitise_column_name(segment_name), sep = "."))
           )
-        }, map_keys = T)
+        }, map_keys = TRUE)
     }) %>%
     purrr::reduce(utils::modifyList)
 }
 
 #' Returns a list of summary statistics for a plotly plot, provided as a list
-#' e.g. from jsonlite
-#'
-#' @param plot_data A list containing the keys $plot_type, $datasets and $config
+#' e.g. from jsonlite.
+#' @details This is an internal function that may be of some use to
+#' those who want to extract data from plotly JSON, outside of the context of
+#' MultiQC. If you are trying to extract data from a MultiQC report, please
+#' use the normal [load_multiqc()] function instead.
+#' Please also refer to [load_multiqc()] for more information on these arguments, as
+#' they are identical to the elements of the `plot_opts` list.
+#' @param plot_data A list containing the names `plot_type`, `datasets` and
+#' `config`.
 #' @param extractor A function which converts the raw plot JSON into a vector
 #' @param summary A function that maps a vector to a scalar
 #' @param prefix The prefix for this plot type in the final data frame
 #' @returns A list of samples, each containing a list of plots, each containing
 #' a list of summary stats
 #' @export
+#' @examples
+#' parse_plot_features(
+#'   plot_data=jsonlite::read_json(
+#'     system.file(
+#'       "extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"
+#'     )
+#'   )$report_plot_data$snpeff_effects,
+#'   prefix='effects'
+#' )
 parse_plot_features <- function(plot_data,
                                 prefix,
                                 extractor = extract_ignore_x,
@@ -83,7 +100,7 @@ parse_plot_features <- function(plot_data,
 
   args <- as.list(match.call())[-1]
   # Switch case to handle each plot type differently
-  switch(args$plot_data$plot_type,
+  switch(plot_data$plot_type,
     # For unknown plots, do nothing
     function() {},
     xy_line = purrr::partial(parse_xyline_plot, !!!args),
@@ -97,6 +114,7 @@ parse_plot_features <- function(plot_data,
 #'
 #' @return A list of samples, each of which has a list of metrics
 #' @keywords internal
+#' @noRd
 parse_plots <- function(parsed, options) {
 
   # Plot data is more complex

@@ -6,18 +6,16 @@
 #' @param l a vector to map over
 #' @param func the function to apply over that vector, which must return a `list(key=?, value=?)`
 #' @param map_keys logical. If TRUE, then use `imap` which provides the keys as the second element to the function
-#'
+#' @keywords internal
+#' @noRd
 #' @examples
-#' \dontrun{
 #' library(magrittr)
 #' c(1, 2, 3) %>% kv_map(~ list(key = letters[[.]], value = .))
 #' c(1, 2, 3) %>% kv_map(function(x) {
 #'   list(key = letters[[x]], value = x)
 #' })
-#' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = stringr::str_c(.y, "²"), value = .x), map_keys = T)
-#' }
-#' @keywords internal
-kv_map <- function(l, func, map_keys = F) {
+#' c(a = 1, b = 2, c = 3) %>% kv_map(~ list(key = stringr::str_c(.y, "²"), value = .x), map_keys = TRUE)
+kv_map <- function(l, func, map_keys = FALSE) {
   mapper <- ifelse(map_keys, purrr::imap, purrr::map)
   mapped <- mapper(l, func) %>% purrr::set_names(nm = NULL)
   keys <- mapped %>% purrr::map_chr("key")
@@ -28,6 +26,7 @@ kv_map <- function(l, func, map_keys = F) {
 #' Converts a MultiQC string into a standardised identifier for the final
 #' data frame
 #' @keywords internal
+#' @noRd
 sanitise_column_name <- function(name) {
   name %>%
     stringr::str_replace_all(pattern = "[- ]", replacement = "_") %>% # Any dividing characters become underscores

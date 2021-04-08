@@ -28,6 +28,7 @@ NULL
 #' @param parsed The full parsed multiqc JSON file
 #' @return A list of samples, each of which has a list of metrics
 #' @keywords internal
+#' @noRd
 parse_general <- function(parsed) {
   parsed$report_general_stats_data %>%
     purrr::map(function(inner) {
@@ -38,7 +39,7 @@ parse_general <- function(parsed) {
             key = stringr::str_c("general", sanitise_column_name(mname), sep = "."),
             value = mvalue
           )
-        }, map_keys = T)
+        }, map_keys = TRUE)
       })
     }) %>%
     purrr::reduce(~ purrr::list_merge(.x, !!!.y))
@@ -50,6 +51,7 @@ parse_general <- function(parsed) {
 #'
 #' @return A list of samples, each of which has a list of metrics
 #' @keywords internal
+#' @noRd
 parse_raw <- function(parsed) {
   # For each tool
   parsed$report_saved_raw_data %>%
@@ -71,9 +73,9 @@ parse_raw <- function(parsed) {
                 key = stringr::str_c("raw", sanitise_column_name(tool), sanitise_column_name(mname), sep = "."),
                 value = mvalue
               )
-          }, map_keys = T)
+          }, map_keys = TRUE)
         )
-      }, map_keys = T)
+      }, map_keys = TRUE)
     }) %>%
     purrr::reduce(utils::modifyList)
 }
@@ -83,6 +85,7 @@ parse_raw <- function(parsed) {
 #' @param parsed The parsed multiqc.json
 #' @param samples A list of known sample names
 #' @keywords internal
+#' @noRd
 parse_metadata <- function(parsed, samples, find_metadata) {
   samples %>%
     kv_map(function(sample) {
@@ -103,7 +106,6 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 }
 
 #' Loads one or more MultiQCs report into a data frame
-#'
 #' @param paths A vector of filepaths to multiqc_data.json files
 #' @param plot_opts A named list mapping the internal MultiQC plot name, e.g.
 #' "fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
@@ -127,7 +129,7 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #' section, and 'raw' means parse the raw data section. This defaults to
 #' 'general', which tends to contain the most useful statistics
 #' @export
-#' @return A tibble with QC data and metadata as columns, and samples as rows
+#' @return A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows
 #' @examples
 #' load_multiqc(
 #'   system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),

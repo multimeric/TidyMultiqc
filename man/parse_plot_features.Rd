@@ -3,7 +3,7 @@
 \name{parse_plot_features}
 \alias{parse_plot_features}
 \title{Returns a list of summary statistics for a plotly plot, provided as a list
-e.g. from jsonlite}
+e.g. from jsonlite.}
 \usage{
 parse_plot_features(
   plot_data,
@@ -13,7 +13,8 @@ parse_plot_features(
 )
 }
 \arguments{
-\item{plot_data}{A list containing the keys $plot_type, $datasets and $config}
+\item{plot_data}{A list containing the names \code{plot_type}, \code{datasets} and
+\code{config}.}
 
 \item{prefix}{The prefix for this plot type in the final data frame}
 
@@ -27,5 +28,23 @@ a list of summary stats
 }
 \description{
 Returns a list of summary statistics for a plotly plot, provided as a list
-e.g. from jsonlite
+e.g. from jsonlite.
+}
+\details{
+This is an internal function that may be of some use to
+those who want to extract data from plotly JSON, outside of the context of
+MultiQC. If you are trying to extract data from a MultiQC report, please
+use the normal \code{\link[=load_multiqc]{load_multiqc()}} function instead.
+Please also refer to \code{\link[=load_multiqc]{load_multiqc()}} for more information on these arguments, as
+they are identical to the elements of the \code{plot_opts} list.
+}
+\examples{
+parse_plot_features(
+  plot_data=jsonlite::read_json(
+    system.file(
+      "extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"
+    )
+  )$report_plot_data$snpeff_effects,
+  prefix='effects'
+)
 }

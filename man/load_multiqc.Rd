@@ -39,7 +39,7 @@ section, and 'raw' means parse the raw data section. This defaults to
 'general', which tends to contain the most useful statistics}
 }
 \value{
-A tibble with QC data and metadata as columns, and samples as rows
+A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows
 }
 \description{
 Loads one or more MultiQCs report into a data frame

@@ -22,6 +22,19 @@ For example this might be relevant for a mean per-base fastq
 quality score. This will let you then calculate the overall mean quality of
 the reads.
 }
+\examples{
+report <- load_multiqc(
+   system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
+   sections = "plots",
+   plot_opts = list(
+     `fastqc_per_base_sequence_quality_plot` = list(
+       extractor = extract_ignore_x,
+       summary = list(mean = mean),
+       prefix = "quality"
+     )
+   )
+)
+}
 \seealso{
 Other extractors: 
 \code{\link{extract_histogram}()},
