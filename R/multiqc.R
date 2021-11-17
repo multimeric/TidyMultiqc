@@ -173,7 +173,15 @@ load_multiqc <- function(paths,
       purrr::list_merge(metadata, !!!main_data) %>%
         dplyr::bind_rows()
     }) %>%
-    # Move the columns into the order: metadata, general, plots, raw
-    dplyr::relocate(dplyr::starts_with("metadata")) %>%
-    dplyr::relocate(dplyr::starts_with("raw"), .after = dplyr::last_col())
+    # Only arrange the columns if we have at least 1 column
+      `if`(
+      # Move the columns into the order: metadata, general, plots, raw
+      ncol(.) > 0,
+      (.) %>% print %>%
+        dplyr::relocate(dplyr::starts_with("raw")) %>%
+        dplyr::relocate(dplyr::starts_with("plot")) %>%
+        dplyr::relocate(dplyr::starts_with("general")) %>%
+        dplyr::relocate(dplyr::starts_with("metadata")),
+      .
+    )
 }
