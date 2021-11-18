@@ -2,7 +2,11 @@
 title: "TidyMultiqc"
 output:
   html_document:
+    toc: true
+    toc_depth: 2
     df_print: paged
+pkgdown:
+  as_is: true
 vignette: >
   %\VignetteIndexEntry{TidyMultiqc}
   %\VignetteEngine{knitr::rmarkdown}
@@ -29,8 +33,9 @@ to indicate the path to this `multiqc_data.json` file. Feel free to set this
 variable to the path to this file on your system.
 
 ## Setup
-First, load the package:
+First, install and load the package:
 ```{r setup}
+install.packages("TidyMultiqc")
 library(TidyMultiqc)
 ```
 
@@ -38,6 +43,7 @@ library(TidyMultiqc)
 The main entry point to the `TidyMultiqc` package is the function `load_multiqc`.
 A basic invocation of this function looks like this:
 
+(note the arrow for scrolling through columns)
 ```{r paged.print=TRUE}
 df = load_multiqc(multiqc_data_path)
 df
