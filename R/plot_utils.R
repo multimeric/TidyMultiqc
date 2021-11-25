@@ -5,7 +5,6 @@
 #' @param list_col A list containing tibbles
 #' @return A list of HistDat objects
 #' @export
-#' @examples
 plot_to_histogram = function(list_col){
     purrr::map(list_col, ~HistDat::HistDat(vals = .$x, counts = .$y))
 }

@@ -6,13 +6,22 @@
 \usage{
 load_multiqc(
   paths,
-  plot_opts = list(),
+  plots = NULL,
   find_metadata = function(...) {     list() },
+  plot_parsers = list(),
   sections = "general"
 )
 }
 \arguments{
 \item{paths}{A vector of filepaths to multiqc_data.json files}
+
+\item{find_metadata}{A function that will be called with a sample name and the
+parsed JSON and returns a named list of metadata fields for the sample}
+
+\item{sections}{Vector of the sections to include in the output: 'plots'
+in the list means parse plot data, 'general' means parse the general stats
+section, and 'raw' means parse the raw data section. This defaults to
+'general', which tends to contain the most useful statistics}
 
 \item{plot_opts}{A named list mapping the internal MultiQC plot name, e.g.
 "fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
@@ -29,14 +38,6 @@ summarise the plot. See also the \code{summary_x} functions in this package.}
 \item{prefix}{Optional. A new name for this plot. MultiQC sometimes has
 some unwieldy names for its plot, so this lets you rename them}
 }}
-
-\item{find_metadata}{A function that will be called with a sample name and the
-parsed JSON and returns a named list of metadata fields for the sample}
-
-\item{sections}{Vector of the sections to include in the output: 'plots'
-in the list means parse plot data, 'general' means parse the general stats
-section, and 'raw' means parse the raw data section. This defaults to
-'general', which tends to contain the most useful statistics}
 }
 \value{
 A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows

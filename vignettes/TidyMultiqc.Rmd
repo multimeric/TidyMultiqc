@@ -3,7 +3,7 @@ title: "TidyMultiqc"
 output:
   html_document:
     toc: true
-    toc_depth: 2
+    toc_depth: 3
     df_print: paged
 pkgdown:
   as_is: true
@@ -98,11 +98,13 @@ It seems that we cannot reject this hypothesis, so these may well be human sampl
 
 ## Extracting Plot Data
 
+### Motivation
+
 It is occasionally useful to extract QC data from the MultiQC plots. 
 For example, let's say we want to calculate the median quality score of every base in each sample.
 Unfortunately, MultiQC provides no numerical summary statistic for the mean read quality, it only has mapping quality and pass/fails for the per-base sequence quality:
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(dplyr)
 
 df_both %>% select(contains('quality'))
@@ -111,29 +113,92 @@ df_both %>% select(contains('quality'))
 However, our MultiQC report does have *plots* that contain this information.
 In particular, let's look at the "Per Sequence Quality Scores" plot.
 
-To extract this, we need to provide some new arguments to `load_multiqc`:
+### Listing Plots
+
+Firstly, we need the ID of the plot we want.
+This isn't necessarily obvious from just looking at the report, so we can use a utility function here:
+
 ```{r}
-load_multiqc(
-  multiqc_data_path, 
-  sections = 'plots',
-  plot_opts = list(
-    `fastqc_per_sequence_quality_scores_plot` = list(
-      extractor = extract_histogram,
-      summary = list(median=median),
-      prefix = "quality"
-    )
-  )
-)
+list_plots(multiqc_data_path)
 ```
-This looks pretty good!
-To walk through what we did here, we firstly specified the `plots` section.
-We also provided the `plot_opts` argument as a named list.
-The names of this list correspond to the plot names inside the MultiQC file (you can find them by looking in the `report_plot_data` section of the `multiqc_data.json` file).
-The values of this list are each a list of options for that plot.
-In this case, we used the following options:
 
-* `prefix = 'quality'` means that we want to rename the plot to `quality`, rather than use its uglier default name of `qualimap_coverage_histogram`.
-* `extractor = extract_histogram` means that this is a histogram plot (ie the y-axis are counts, and the x-axis are observations). Have a look at the reference manual for more types of extractor function.
-* `summary = list('median' = median)` is a list of summary statistics to apply to the data we have extracted. In this case, we want to take the median, so we pass in the `median` function. The name corresponding to this function is the name that will end up in the final data frame.
+Now, we know we want the "Per Sequence Quality Scores" plot, and by looking at the data frame above we can tell that the corresponding ID is `fastqc_per_sequence_quality_scores_plot`.
 
-For more information, refer to the vignette TODO
+### Loading Plots
+
+Now that we have the plot ID, we can load the plot data.
+First, we need to tell `TidyMultiqc` to load include some plots by using `sections = "plot"` (you can load other sections at the same time, as explained above).
+Also, we need to pass the plot ID from the previous step into the `plots` argument:
+```{r}
+df = load_multiqc(
+  multiqc_data_path, 
+  sections = 'plot',
+  plots = "fastqc_per_sequence_quality_scores_plot"
+)
+df
+```
+
+We now have the plot data, but it's not in a very usable form! 
+This is because each sample has an entire data frame of plot data.
+At this point if you're comfortable using `dplyr` and `tidyr` to deal with nested data frames, you probably know what to do.
+Otherwise, read on.
+
+### Converting Plot Data
+
+Recall that we are after the median quality score of each sample.
+First, we should look at the plot data for a single sample to know what we're dealing with:
+
+```{r}
+df$plot.fastqc_per_sequence_quality_scores_plot[[1]]
+```
+So each data frame is a set of x, y pairs. 
+As it's a histogram plot, we know that the `x` value is the quality score, and `y` is the number of times that score has been counted.
+
+Now, if we just wanted a simple statistic, like the number of times the quality score was 30 (not a very useful metric in reality), we could pull out this value from the data frame.
+But remember, we are actually dealing with a list of data frames, so we will have to use a `purrr::map` function to help here:
+
+```{r}
+library(purrr)
+
+df %>%
+  mutate(q30s = purrr::map_dbl(plot.fastqc_per_sequence_quality_scores_plot, function(plot_df){
+    plot_df %>%
+      filter(x == 30) %>%
+      pull(y)
+  }))
+```
+
+Note as well that we used `purrr::map_dbl` here, since the final column was a double-typed vector.
+
+### Properly Handling Histogram Data
+
+Of course, we actually want to find the median here, which is a bit harder.
+Luckily there exists a package called `HistDat` for generating summary statistics from histogram-type data.
+You can check out the package's manual and vignettes [here](https://cran.r-project.org/package=HistDat), but in brief, we want to convert each of these plot data frames into a `HistDat` object, which we can do using the same strategy as before, only we use `purrr::map` because we want a list column.
+We can also throw away the original plot column, because we no longer need it:
+
+```{r}
+library(HistDat)
+
+df = df %>%
+  dplyr::mutate(
+    hist = purrr::map(plot.fastqc_per_sequence_quality_scores_plot, function(plot_df){
+      HistDat(vals=plot_df$x, counts = plot_df$y)
+    }),
+    plot.fastqc_per_sequence_quality_scores_plot = NULL
+  )
+```
+Finally, we can now apply one or more summary statistics to this new column:
+
+```{r}
+df %>%
+  mutate(
+    mean = purrr::map_dbl(hist, mean),
+    median = purrr::map_dbl(hist, median),
+    max = purrr::map_dbl(hist, max),
+    q30s = NULL,
+    hist = NULL
+  )
+```
+
+Perfect!
