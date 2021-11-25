@@ -1,24 +1,9 @@
 #' TidyMultiqc: Converting MultiQC reports into tidy data frames
 #' @description This package provides the means to convert `multiqc_data.json`
 #' files, produced by the wonderful [MultiQC](http://multiqc.info/) tool,
-#' into tidy data.frames for downstream analysis in R. This analysis might
-#' involve cohort analysis, quality control visualisation, changepoint detection,
-#' statistical process control, clustering, or any other type of quality analysis.
-#' @section Core API:
-#' The public API to this package
-#' * [load_multiqc()]
-#' @section Plot Extractor Functions:
-#' These functions can be used as arguments to [load_multiqc()] to specify
-#' how to extract data from MultiQC plots
-#' * [extract_ignore_x()]
-#' * [extract_xy()]
-#' * [extract_histogram()]
-#' @section Summary Functions:
-#' These are also passed as arguments to [load_multiqc()].
-#' In most cases you can use normal summary statistics like [base::mean()],
-#' but these are some other useful ones you might want.
-#' * [summary_q30()]
-#' * [summary_extract_df()]
+#' into tidy data.frames for downstream analysis in R.
+#' If you are reading this, you should immediately stop reading this and
+#' go to https://github.com/multimeric/TidyMultiqc
 #' @importFrom magrittr `%>%`
 #' @docType package
 #' @name TidyMultiqc-package
@@ -26,7 +11,7 @@ NULL
 
 #' Parses the "general_stats_data" section
 #' @param parsed The full parsed multiqc JSON file
-#' @return A list of samples, each of which has a list of metrics
+#' @return A list of samples, each of which has a list of metricsx
 #' @keywords internal
 #' @noRd
 parse_general <- function(parsed) {
@@ -143,14 +128,15 @@ parse_metadata <- function(parsed, samples, find_metadata) {
 #'   )
 #' )
 load_multiqc <- function(paths,
-                         plot_opts = list(),
+                         plots = NULL,
                          find_metadata = function(...) {
                            list()
                          },
+                         plot_parsers = list(),
                          sections = "general") {
   assertthat::assert_that(all(sections %in% c(
-    "general", "plots", "raw"
-  )), msg = "Only 'general', 'plots' and 'raw' (and combinations of those) are valid items for the sections parameter")
+    "general", "plot", "raw"
+  )), msg = "Only 'general', 'plot' and 'raw' (and combinations of those) are valid items for the sections parameter")
 
   # Vectorised over paths
   paths %>%
@@ -160,24 +146,23 @@ load_multiqc <- function(paths,
       # The main data is plots/general/raw
       main_data <- sections %>%
         purrr::map(~ switch(.,
-          general = parse_general,
-          raw = parse_raw,
-          plots = purrr::partial(parse_plots, options = plot_opts)
-        )(parsed)) %>%
+          general = parse_general(parsed),
+          raw = parse_raw(parsed),
+          plot = parse_plots(parsed, plots = plots, plot_parsers=plot_parsers)
+        )) %>%
         purrr::reduce(~ purrr::list_merge(.x, !!!.y), .init = list()) %>%
         purrr::imap(~ purrr::list_merge(.x, metadata.sample_id = .y))
 
       # Metadata is defined by a user function
       metadata <- parse_metadata(parsed = parsed, samples = names(main_data), find_metadata = find_metadata)
-
       purrr::list_merge(metadata, !!!main_data) %>%
         dplyr::bind_rows()
     }) %>%
     # Only arrange the columns if we have at least 1 column
       `if`(
-      # Move the columns into the order: metadata, general, plots, raw
+      # Move the columns into the order: metadata, general, plot, raw
       ncol(.) > 0,
-      (.) %>% print %>%
+      (.) %>%
         dplyr::relocate(dplyr::starts_with("raw")) %>%
         dplyr::relocate(dplyr::starts_with("plot")) %>%
         dplyr::relocate(dplyr::starts_with("general")) %>%

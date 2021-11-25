@@ -28,7 +28,7 @@ Suggests:
     rmarkdown,
     ggplot2
 Config/testthat/edition: 3
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
 URL: https://github.com/multimeric/TidyMultiqc, https://cran.r-project.org/package=TidyMultiqc

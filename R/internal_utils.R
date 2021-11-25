@@ -33,3 +33,5 @@ sanitise_column_name <- function(name) {
     stringr::str_remove_all(pattern = "[^\\w%_]") %>% # Any special characters bar underscore and % get deleted
     stringr::str_to_lower()
 }
+
+ROW_IDENTIFIER = "metadata.sample_id"

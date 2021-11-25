@@ -33,24 +33,32 @@ test_that("the `extract_histogram` extractor works", {
   # "histogram" data by replicating the quality score `count` times
   report <- load_multiqc(
     system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
-    sections = "plots",
-    plot_opts = list(
-      `fastqc_per_sequence_quality_scores_plot` = list(
-        extractor = extract_histogram,
-        summary = list(mean = mean),
-        prefix = "quality"
-      )
-    )
+    sections = "plot",
+    plots = "fastqc_per_sequence_quality_scores_plot"
+    # plot_opts = list(
+    #   `fastqc_per_sequence_quality_scores_plot` = list(
+    #     extractor = extract_histogram,
+    #     summary = list(mean = mean),
+    #     prefix = "quality"
+    #   )
+    # )
   )
 
   # We only have one sample
   expect_equal(nrow(report), 1)
   # We only extracted one statistic from one plot, plus the sample name
   expect_equal(ncol(report), 2)
-  # The column should have been renamed
-  expect_true("plot.quality.mean" %in% colnames(report))
+  expect_true("plot.fastqc_per_sequence_quality_scores_plot" %in% colnames(report))
   # We want the right result
-  expect_equal(report[[1, "plot.quality.mean"]], 32, tolerance = 0.5)
+  expect_equal(
+    report %>% 
+      dplyr::pull("plot.fastqc_per_sequence_quality_scores_plot") %>%
+      dplyr::first() %>%
+      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
+      HistDat::mean(), 
+    32, 
+    tolerance = 0.5
+  )
 })
 
 test_that("the `extract_ignore_x` extractor works", {
@@ -60,24 +68,25 @@ test_that("the `extract_ignore_x` extractor works", {
 
   report <- load_multiqc(
     system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
-    sections = "plots",
-    plot_opts = list(
-      `fastqc_per_base_sequence_quality_plot` = list(
-        extractor = extract_ignore_x,
-        summary = list(mean = mean),
-        prefix = "quality"
-      )
-    )
+    sections = "plot",
+    plots = "fastqc_per_base_sequence_quality_plot"
   )
 
   # We only have one sample
   expect_equal(nrow(report), 1)
   # We only extracted one statistic from one plot, plus the sample name
   expect_equal(ncol(report), 2)
-  # The column should have been renamed
-  expect_true("plot.quality.mean" %in% colnames(report))
+  expect_true("plot.fastqc_per_base_sequence_quality_plot" %in% colnames(report))
   # We want the right result
-  expect_equal(report[[1, "plot.quality.mean"]], 32.4, tolerance = 0.5)
+  expect_equal(
+    report %>% 
+      dplyr::pull("plot.fastqc_per_base_sequence_quality_plot") %>%
+      dplyr::first() %>%
+      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
+      HistDat::mean(), 
+    32.4, 
+    tolerance = 0.5
+  )
 })
 
 
@@ -88,21 +97,21 @@ test_that("We can enable all sections at once", {
 
   report <- load_multiqc(
     system.file("extdata", "HG00096/multiqc_data.json", package = "TidyMultiqc"),
-    sections = c("plots", "general", "raw"),
-    plot_opts = list(
-      `fastqc_per_base_sequence_quality_plot` = list(
-        extractor = extract_ignore_x,
-        summary = list(mean = mean),
-        prefix = "quality"
-      )
-    )
+    sections = c("plot", "general", "raw"),
+    plots = "fastqc_per_base_sequence_quality_plot"
   )
 
   # We only have one sample
   expect_equal(nrow(report), 1)
   expect_equal(ncol(report), 32)
-  # The column should have been renamed
-  expect_true("plot.quality.mean" %in% colnames(report))
+  expect_true("plot.fastqc_per_base_sequence_quality_plot" %in% colnames(report))
   # We want the right result
-  expect_equal(report[[1, "plot.quality.mean"]], 32.4, tolerance = 0.5)
-})
+  expect_equal(
+    report %>% 
+      dplyr::pull("plot.fastqc_per_base_sequence_quality_plot") %>%
+      dplyr::first() %>%
+      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
+      HistDat::mean(), 
+    32.4, 
+    tolerance = 0.5
+  )})

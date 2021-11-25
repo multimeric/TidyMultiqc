@@ -1,0 +1,81 @@
+---
+title: "PlotExtraction"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    df_print: paged
+pkgdown:
+  as_is: true
+vignette: >
+  %\VignetteIndexEntry{PlotExtraction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\Vignette
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+multiqc_data_path = system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc")
+library(TidyMultiqc)
+```
+
+## API
+
+Recall from the last tutorial, that `load_multiqc()` takes a `plot_opts` list, which specifies which plots to include in our data frame, and how to extract them.
+
+For example:
+
+```
+plot_opts = list(
+  `fastqc_per_sequence_quality_scores_plot` = list(
+    extractor = extract_histogram,
+    summary = list(median=median),
+    prefix = "quality"
+  )
+)
+```
+
+*Each* element to the `plot_opts` list must have the following features. 
+Refer to the appropriate section on each:
+
+* [**A name**](#plot-names) (`fastqc_per_sequence_quality_scores_plot` in this case)
+* A value, which is itself a list containing:
+  * [`extractor`: the function that converts from the raw JSON to some kind of data frame](#extractor-functions)
+  * [`summary`: the summary statistic you want to obtain from this data frame](#summary-functions)
+  * `prefix`: optionally, a custom name for this plot in your output
+  
+## Plot Names
+
+The names (or keys, if you want to think of it like a Python dictionary) of the `plot_opts` list must be plot identifiers.
+When you open up a multiqc report, you are used to seeing something like "FastQC: Per Sequence Quality Scores". 
+However internally this plot has an identifier which is more like `fastqc_per_sequence_quality_scores_plot`.
+
+Finding out the plot identifier isn't necessarily trivial, so we provide a useful function that does just that.
+Just run `list_plots()`:
+
+```{r}
+list_plots(multiqc_data_path)
+```
+
+Then, if there is a plot in the multiqc report that you want to analyse, note its title in the report, then look for that in the `title` column of this data frame.
+Then, copy the corresponding value in the `id` column, and use that as the name for your `plot_opts`.
+
+## Extractor Functions
+
+This is a function that takes as input the raw JSON plot data for a single sample within a plot, and returns a data frame row.
+The resulting data will then be inserted into the final data frame for the corresponding sample.
+Generally plots contain multidimensional data, not just scalar values, and for this reason the returned row might have several "list columns", whereby vectors are crammed into a single row of the data frame.
+Each plot type needs its own extractor function, and we recommend that you use one of the pre-existing extractor functions:
+
+* `extract_xy()`:
+
+### Writing your Own
+
+Some hints:
+
+* Your function must absolutely always return a single data frame row, and not an entire data frame. It will be passed to `as_tibble_row()`, but ideally your function will ultimately return a value produced by `tibble_row()` anyway
+* Refer to the existing extractor functions for reference

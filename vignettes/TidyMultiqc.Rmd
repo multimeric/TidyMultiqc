@@ -33,9 +33,13 @@ to indicate the path to this `multiqc_data.json` file. Feel free to set this
 variable to the path to this file on your system.
 
 ## Setup
-First, install and load the package:
-```{r setup}
+First, install the package using:
+```{r, eval=FALSE}
 install.packages("TidyMultiqc")
+```
+
+Then load the package:
+```{r setup}
 library(TidyMultiqc)
 ```
 
@@ -130,4 +134,6 @@ In this case, we used the following options:
 
 * `prefix = 'quality'` means that we want to rename the plot to `quality`, rather than use its uglier default name of `qualimap_coverage_histogram`.
 * `extractor = extract_histogram` means that this is a histogram plot (ie the y-axis are counts, and the x-axis are observations). Have a look at the reference manual for more types of extractor function.
-* `summary = list('median' = median)` is a list of summary statistics to apply to the data we have extracted. In this case, we want to take the median, so we pass in the `median` function. The name corresponding to this function is the name that will end up in the final data frame. 
+* `summary = list('median' = median)` is a list of summary statistics to apply to the data we have extracted. In this case, we want to take the median, so we pass in the `median` function. The name corresponding to this function is the name that will end up in the final data frame.
+
+For more information, refer to the vignette TODO
