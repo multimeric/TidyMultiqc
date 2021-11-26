@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -125,9 +125,11 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
-<li>Removed the <code>plot_opts</code> key from the <code>load_multiqc</code> function. Instead, the plots are returns as list columns ie nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal <code>dplyr</code> and <code>tidyr</code> functions. Refer to the vignettes for examples. <a href="https://github.com/multimeric/TidyMultiqc/issues/1">[<a href='https://github.com/multimeric/TidyMultiqc/issues/1'>#1</a>]</a>
+<li>Removed the <code>plot_opts</code> key from the <code>load_multiqc</code> function. Instead, the plots are returns as list columns with nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal <code>dplyr</code> and <code>tidyr</code> functions. Refer to the vignettes for examples. <a href="https://github.com/multimeric/TidyMultiqc/issues/1">[<a href='https://github.com/multimeric/TidyMultiqc/issues/1'>#1</a>]</a>
 </li>
 <li>Renamed “plots” to “plot” in the <code>sections</code> argument. This ensures consistency with the data frame column names for plots, which are “plot.XX”</li>
+<li>
+<code>metadata.sample_id</code> is now always the first column in the data frame, even if you have provided a metadata function</li>
 </ul>
 </div>
 <div id="new-features" class="section level2">

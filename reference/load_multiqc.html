@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -150,6 +150,13 @@ parsed JSON for the entire report and returns a named list of metadata fields fo
 Refer to the vignette for an example.</p></td>
     </tr>
     <tr>
+      <th>plot_parsers</th>
+      <td><p><strong>Advanced</strong>. A named list of custom parser functions.
+The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
+that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
+is named by the name of the column. Refer to the source code for some examples.</p></td>
+    </tr>
+    <tr>
       <th>sections</th>
       <td><p>A string vector of zero or more sections to include in the output.
 Each section can be:</p><dl>
@@ -158,13 +165,6 @@ Each section can be:</p><dl>
 <dt>"raw"</dt><dd><p>Parse the raw data section</p></dd>
 
 </dl><p>This defaults to 'general', which tends to contain the most useful statistics</p></td>
-    </tr>
-    <tr>
-      <th>plot_parsers.</th>
-      <td><p>Advanced A named list of custom parser functions.
-The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
-that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
-is named by the name of the column. Refer to the source code for some examples.</p></td>
     </tr>
     </table>
 
@@ -177,9 +177,13 @@ and will always be listed in the following order:</p>
 By default this is only the sample ID, but if you have provided the
 <code>find_metadata</code> argument, there may be more columns.</p></dd>
 <dt><code>general.X</code></dt><dd><p>This column contains a generally useful summary statistic for each sample</p></dd>
-<dt><code>plot.X</code></dt><dd><p>This column contains a data frame of plot data for each sample</p></dd>
+<dt><code>plot.X</code></dt><dd><p>This column contains a data frame of plot data for each sample.
+Refer to the plot parsers documentation (ie the <code>parse_X</code> functions) for more information on the output format.</p></dd>
 <dt><code>raw.X</code></dt><dd><p>This column contains a raw summary statistic or value relating to each sample</p></dd>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='parse_xyline_plot.html'>parse_xyline_plot()</a></code> <code><a href='parse_bar_graph.html'>parse_bar_graph()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='fu'>load_multiqc</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"wgs/multiqc_data.json"</span>, package <span class='op'>=</span> <span class='st'>"TidyMultiqc"</span><span class='op'>)</span><span class='op'>)</span></span>

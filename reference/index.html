@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -148,6 +148,33 @@
           <p><code><a href="list_plots.html">list_plots()</a></code> </p>
         </td>
         <td><p>List the plot identifiers of all the plots in a given multiqc report</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plot-parsers" class="hasAnchor"><a href="#section-plot-parsers" class="anchor"></a>Plot Parsers</h2>
+          <p class="section-desc"><p>These are internal functions that you will never need to call yourself, and aren’t exported. However, these are used to document the format of the nested data frames for different types of plots.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="parse_bar_graph.html">parse_bar_graph()</a></code> </p>
+        </td>
+        <td><p>Takes the JSON dictionary for a bar graph, and returns a named list of
+data frames, one for each sample.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="parse_xyline_plot.html">parse_xyline_plot()</a></code> </p>
+        </td>
+        <td><p>Takes the JSON dictionary for an xyline plot, and returns a named list of
+data frames, one for each sample.</p></td>
       </tr>
     </tbody>
     </table>
