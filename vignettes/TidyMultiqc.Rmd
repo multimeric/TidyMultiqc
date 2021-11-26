@@ -269,7 +269,11 @@ TidyMultiqc::load_multiqc(
   plot_parsers = list(
     # This fake parser function takes a plot and just returns the iris dataset
     xy_line = function(plot_data, name){
-      iris
+      list(
+        sample_1 = list(
+          plot_name = list(iris)
+        )
+      )
     }
   )
 )
