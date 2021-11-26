@@ -101,6 +101,72 @@ t.test(df$general.percent_gc, mu=41)
 ```
 It seems that we cannot reject this hypothesis, so these may well be human samples!
 
+## Extracting Metadata
+
+It may be the case that your samples have important metadata that you want in your data frame.
+For example, it is common for the sample names or file names to be composed of a number of metadata fields, and indeed the report we are working with has IDs such as `P4107_1003`, which is composed of two identifiers.
+
+To include this metadata in our output, we need to provide the `find_metadata` argument to `load_multiqc`, which is a function that is called for each sample, and which returns a named vector of metadata fields for that sample.
+It also gets passed the entire parsed MultiQC JSON report, so the function can traverse the structure as it wants to extract metadata.
+
+### From the File Name
+Here is an example that parses the input file names to annotate additional metadata.
+Notice that the first argument our function is passed is a string which is the sample identifier for a sample, and how in this example we ignore the `parsed` argument.
+Also notice that the names we give to our return value ("batch" and "sample") are prefixed by "metadata" to become the final names in the data frame.
+
+```{r}
+TidyMultiqc::load_multiqc(
+  multiqc_data_path, 
+  find_metadata = function(sample, parsed) {
+    # Split the sample ID to obtain some metadata
+    segments <- stringr::str_split(sample, "_")[[1]]
+    c(
+      batch = segments[[1]],
+      sample = segments[[2]]
+    )
+  }
+)
+```
+### From the File Path
+
+We can extend this approach, but this time actually look up the file paths within the `report_data_sources` section of the MultiQC report:
+
+```{r}
+TidyMultiqc::load_multiqc(
+  multiqc_data_path, 
+  find_metadata = function(sample, parsed) {
+    # This gives us the path to the fastqc output file
+    filepath = parsed$report_data_sources$FastQC$all_sections[[sample]]
+    # Split into path segments
+    path_segments = stringr::str_split(filepath, "/")[[1]]
+    # The filename is the last path segment
+    filename = dplyr::last(path_segments)
+    # Split the filename using dots and underscores
+    name_segments = stringr::str_split(filename, "[_\\.]")[[1]]
+    # Arbitrarily assign names for the outputs
+    name_segments %>% purrr::set_names(LETTERS[1:length(name_segments)])
+  }
+)
+```
+Of course in a real application we would choose specific names for each field.
+
+### From MultiQC Configuration
+
+Finally, we might want to include metadata that doesn't relate to the sample at all.
+For example, MultiQC has a number of report fields prefixed by `config_` that we might want to store:
+
+```{r}
+TidyMultiqc::load_multiqc(
+  multiqc_data_path, 
+  find_metadata = function(sample, parsed) {
+    parsed[c(
+      "config_creation_date",
+      "config_version"
+    )]
+  }
+)
+```
+
 ## Extracting Plot Data
 
 ### Motivation
@@ -160,20 +226,6 @@ df$plot.fastqc_per_sequence_quality_scores_plot[[1]]
 ```
 So each data frame is a set of x, y pairs. 
 As it's a histogram plot, we know that the `x` value is the quality score, and `y` is the number of times that score has been counted.
-
-<!-- Now, if we just wanted a simple statistic, like the number of times the quality score was 30 (not a very useful metric in reality), we could pull out this value from the data frame. -->
-<!-- But remember, we are actually dealing with a list of data frames, so we will have to use a `purrr::map` function to help here: -->
-
-<!-- ```{r} -->
-<!-- df %>% -->
-<!--   dplyr::mutate(q30s = purrr::map_dbl(plot.fastqc_per_sequence_quality_scores_plot, function(plot_df){ -->
-<!--     plot_df %>% -->
-<!--       dplyr::filter(x == 30) %>% -->
-<!--       dplyr::pull(y) -->
-<!--   })) -->
-<!-- ``` -->
-
-<!-- Note as well that we used `purrr::map_dbl` here, since the final column was a double-typed vector. -->
 
 ### Unnesting
 
@@ -281,5 +333,4 @@ TidyMultiqc::load_multiqc(
 
 Finally, if your parser works, please submit a pull request to `TidyMultiqc` to share this with everyone!
 
-
-Using the strategies and patterns explained in this section, you should be in good stead to handle whatever plots `multiqc` throws at you.
+Using the strategies and patterns explained in this section, you should be in good stead to handle whatever plots MultiQC throws at you.

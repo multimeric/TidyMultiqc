@@ -5,3 +5,7 @@ reference:
   - contents:
     - load_multiqc
     - list_plots
+  - title: Plot Parsers
+    desc: These are internal functions that you will never need to call yourself, and aren't exported. However, these are used to document the format of the nested data frames for different types of plots.
+  - contents:
+    - has_keyword("plot_parser")

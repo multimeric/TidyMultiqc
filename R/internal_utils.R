@@ -34,4 +34,4 @@ sanitise_column_name <- function(name) {
     stringr::str_to_lower()
 }
 
-ROW_IDENTIFIER = "metadata.sample_id"
+ROW_IDENTIFIER <- "metadata.sample_id"

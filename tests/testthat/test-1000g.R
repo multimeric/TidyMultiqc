@@ -51,12 +51,14 @@ test_that("the `extract_histogram` extractor works", {
   expect_true("plot.fastqc_per_sequence_quality_scores_plot" %in% colnames(report))
   # We want the right result
   expect_equal(
-    report %>% 
+    report %>%
       dplyr::pull("plot.fastqc_per_sequence_quality_scores_plot") %>%
       dplyr::first() %>%
-      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
-      HistDat::mean(), 
-    32, 
+      {
+        HistDat::HistDat(vals = .$x, counts = .$y)
+      } %>%
+      HistDat::mean(),
+    32,
     tolerance = 0.5
   )
 })
@@ -79,12 +81,14 @@ test_that("the `extract_ignore_x` extractor works", {
   expect_true("plot.fastqc_per_base_sequence_quality_plot" %in% colnames(report))
   # We want the right result
   expect_equal(
-    report %>% 
+    report %>%
       dplyr::pull("plot.fastqc_per_base_sequence_quality_plot") %>%
       dplyr::first() %>%
-      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
-      HistDat::mean(), 
-    32.4, 
+      {
+        HistDat::HistDat(vals = .$x, counts = .$y)
+      } %>%
+      HistDat::mean(),
+    32.4,
     tolerance = 0.5
   )
 })
@@ -107,11 +111,14 @@ test_that("We can enable all sections at once", {
   expect_true("plot.fastqc_per_base_sequence_quality_plot" %in% colnames(report))
   # We want the right result
   expect_equal(
-    report %>% 
+    report %>%
       dplyr::pull("plot.fastqc_per_base_sequence_quality_plot") %>%
       dplyr::first() %>%
-      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
-      HistDat::mean(), 
-    32.4, 
+      {
+        HistDat::HistDat(vals = .$x, counts = .$y)
+      } %>%
+      HistDat::mean(),
+    32.4,
     tolerance = 0.5
-  )})
+  )
+})

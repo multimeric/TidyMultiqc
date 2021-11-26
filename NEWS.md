@@ -2,8 +2,9 @@
 
 ## Breaking Changes
 
-* Removed the `plot_opts` key from the `load_multiqc` function. Instead, the plots are returns as list columns ie nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal `dplyr` and `tidyr` functions. Refer to the vignettes for examples. [[#1]](https://github.com/multimeric/TidyMultiqc/issues/1)
+* Removed the `plot_opts` key from the `load_multiqc` function. Instead, the plots are returns as list columns with nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal `dplyr` and `tidyr` functions. Refer to the vignettes for examples. [[#1]](https://github.com/multimeric/TidyMultiqc/issues/1)
 * Renamed "plots" to "plot" in the `sections` argument. This ensures consistency with the data frame column names for plots, which are "plot.XX"
+* `metadata.sample_id` is now always the first column in the data frame, even if you have provided a metadata function
 
 ## New Features
 

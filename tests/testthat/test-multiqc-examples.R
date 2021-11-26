@@ -14,7 +14,7 @@ test_that("We can read all sections of the MultiQC example WGS file", {
     system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
     sections = c("plot", "general", "raw"),
     plots = "fastqc_per_sequence_quality_scores_plot"
-  ) 
+  )
 
   # Sample IDs should be unique
   expect_equal(
@@ -23,13 +23,13 @@ test_that("We can read all sections of the MultiQC example WGS file", {
   )
   expect_equal(nrow(report), n_samples)
   expect_true(ncol(report) > 100)
-  
+
   # Check for the plot list column
   expect_type(report$plot.fastqc_per_sequence_quality_scores_plot, "list")
-  report$plot.fastqc_per_sequence_quality_scores_plot %>% purrr::map(function(df){
+  report$plot.fastqc_per_sequence_quality_scores_plot %>% purrr::map(function(df) {
     expect_equal(ncol(df), 2)
   })
-  
+
   # The metadata should be sorted to the start, and raw to the end
   expect_true(colnames(report[, 1]) %>% stringr::str_starts("metadata"))
   expect_true(report %>% dplyr::select(last_col()) %>% colnames() %>% stringr::str_starts("raw"))
@@ -69,11 +69,13 @@ test_that("We can parse the qualimap coverage histogram", {
   # Check that we can easily extract the median, and that its value is roughly
   # where it should be
   expect_equal(
-    report %>% 
-      filter(metadata.sample_id == "P4107_1001") %>% 
+    report %>%
+      filter(metadata.sample_id == "P4107_1001") %>%
       pull(plot.qualimap_coverage_histogram) %>%
       purrr::flatten_df() %>%
-      {HistDat::HistDat(vals = .$x, counts = .$y)} %>%
+      {
+        HistDat::HistDat(vals = .$x, counts = .$y)
+      } %>%
       HistDat::median(),
     35,
     tolerance = 1
@@ -88,17 +90,17 @@ test_that("We can parse the qualimap cumulative coverage histogram", {
     sections = "plot",
     plots = "qualimap_genome_fraction"
   )
-  
+
   expect_true("plot.qualimap_genome_fraction" %in% colnames(report))
-  
+
   # This plot is already cumulative so instead of calculating the CDF
   # we just pull out the row corresponding to 30
   expect_equal(
-    report %>% 
-      filter(metadata.sample_id == "P4107_1001") %>% 
+    report %>%
+      filter(metadata.sample_id == "P4107_1001") %>%
       pull("plot.qualimap_genome_fraction") %>%
       purrr::flatten_df() %>%
-      dplyr::filter(x==30) %>%
+      dplyr::filter(x == 30) %>%
       dplyr::pull(y),
     74.66,
     tolerance = 0.01
@@ -118,8 +120,8 @@ test_that("We can parse the snpeff bar chart", {
   # Each plot is 1 column, plus the metadata
   expect_equal(ncol(report), 2)
   expect_true("plot.snpeff_variant_effects_region" %in% colnames(report))
-  
-  report = tidyr::unnest(report, cols = plot.snpeff_variant_effects_region, names_sep = ".")
+
+  report <- tidyr::unnest(report, cols = plot.snpeff_variant_effects_region, names_sep = ".")
 
   # After unnesting, we have many more columns
   expect_equal(ncol(dplyr::select(report, where(is.numeric))), 13) # There are 13 regions reported in this plot

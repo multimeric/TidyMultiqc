@@ -22,6 +22,11 @@ want to include in the output. You can use \code{\link[=list_plots]{list_plots()
 parsed JSON for the entire report and returns a named list of metadata fields for the sample.
 Refer to the vignette for an example.}
 
+\item{plot_parsers}{\strong{Advanced}. A named list of custom parser functions.
+The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
+that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
+is named by the name of the column. Refer to the source code for some examples.}
+
 \item{sections}{A string vector of zero or more sections to include in the output.
 Each section can be:
 \describe{
@@ -30,11 +35,6 @@ Each section can be:
 \item{"raw"}{Parse the raw data section}
 }
 This defaults to 'general', which tends to contain the most useful statistics}
-
-\item{plot_parsers.}{\link{Advanced} A named list of custom parser functions.
-The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
-that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
-is named by the name of the column. Refer to the source code for some examples.}
 }
 \value{
 A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows.
@@ -44,13 +44,16 @@ and will always be listed in the following order:
 By default this is only the sample ID, but if you have provided the
 \code{find_metadata} argument, there may be more columns.}
 \item{\code{general.X}}{This column contains a generally useful summary statistic for each sample}
-\item{\code{plot.X}}{This column contains a data frame of plot data for each sample}
-\item{\code{raw.X}}{This column contains a raw summary statistic or value relating to each sample}
-}
+\item{\code{plot.X}}{This column contains a data frame of plot data for each sample.
+Refer to the plot parsers documentation (ie the \code{parse_X} functions) for more information on the output format. }
+\item{\code{raw.X}}{This column contains a raw summary statistic or value relating to each sample }
 }
 \description{
 Loads one or more MultiQCs report into a data frame
 }
 \examples{
 load_multiqc(system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"))
+}
+\seealso{
+\code{\link[=parse_xyline_plot]{parse_xyline_plot()}} \code{\link[=parse_bar_graph]{parse_bar_graph()}}
 }

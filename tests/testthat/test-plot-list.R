@@ -8,7 +8,11 @@ test_that("We can list plot IDs", {
   # Check column names
   expect_named(plots, c("id", "title"))
   # The id column should never contain spaces
-  stringr::str_detect(plots$id, " ", negate = TRUE) %>% all() %>% expect_true()
+  stringr::str_detect(plots$id, " ", negate = TRUE) %>%
+    all() %>%
+    expect_true()
   # The title column should never contain underscores (well it could, but that would be unusual)
-  stringr::str_detect(plots$title, "_", negate = TRUE) %>% all() %>% expect_true()
+  stringr::str_detect(plots$title, "_", negate = TRUE) %>%
+    all() %>%
+    expect_true()
 })
