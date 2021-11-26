@@ -87,6 +87,9 @@ parse_plots <- function(parsed, plots, plot_parsers) {
         if (!is.null(parser)){
           parser(plot_data = plot_data, name = plot_name)
         }
+        else {
+          warning(paste("No known (or provided) parser for a plot of type \"", plot_data$plot_type, "\""))
+        }
       }
     }) %>%
     purrr::flatten() %>%
