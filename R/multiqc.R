@@ -3,7 +3,8 @@
 #' files, produced by the wonderful [MultiQC](http://multiqc.info/) tool,
 #' into tidy data.frames for downstream analysis in R.
 #' If you are reading this manual, you should immediately stop reading this and
-#' instead refer to the documentation website at <https://multimeric.github.io/TidyMultiqc/>.
+#' instead refer to the documentation website at <https://multimeric.github.io/TidyMultiqc/>, which
+#' provides more accessible documentation.
 #' @importFrom magrittr `%>%`
 #' @docType package
 #' @name TidyMultiqc-package

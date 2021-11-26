@@ -9,5 +9,6 @@ This package provides the means to convert \code{multiqc_data.json}
 files, produced by the wonderful \href{http://multiqc.info/}{MultiQC} tool,
 into tidy data.frames for downstream analysis in R.
 If you are reading this manual, you should immediately stop reading this and
-instead refer to the documentation website at \url{https://multimeric.github.io/TidyMultiqc/}.
+instead refer to the documentation website at \url{https://multimeric.github.io/TidyMultiqc/}, which
+provides more accessible documentation.
 }
