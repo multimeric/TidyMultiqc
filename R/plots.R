@@ -98,12 +98,13 @@ parse_plots <- function(parsed, plots, plot_parsers) {
 
 #' List the plot identifiers of all the plots in a given multiqc report
 #' 
-#' @details This is a useful function, because the `plot_opts` list used in
-#' the main `load_multiqc` function requires these identifiers as names. 
-#' Refer to the "Plot Extraction" vignette for more information.
+#' @details The main use for this function is finding the plot identifiers
+#' that you will then pass into the `plots` argument of the [TidyMultiqc::load_multiqc()]
+#' function.
+#' Refer to the section on "Extracting Plot Data" in the main vignette for more information.
 #' @param path The file path to the multiqc report. This should be a length 1
 #' character vector
-#' @return A data frame containing n rows, where n is the number
+#' @return A data frame containing \eqn{n} rows, where \eqn{n} is the number
 #' of plots in the report you have provided, and two columns:
 #' \describe{
 #' \item{id}{The identifier for the plot. This is the one you should use as a name in `plot_opts`.}

@@ -11,7 +11,7 @@ list_plots(path)
 character vector}
 }
 \value{
-A data frame containing n rows, where n is the number
+A data frame containing \eqn{n} rows, where \eqn{n} is the number
 of plots in the report you have provided, and two columns:
 \describe{
 \item{id}{The identifier for the plot. This is the one you should use as a name in \code{plot_opts}.}
@@ -22,9 +22,10 @@ of plots in the report you have provided, and two columns:
 List the plot identifiers of all the plots in a given multiqc report
 }
 \details{
-This is a useful function, because the \code{plot_opts} list used in
-the main \code{load_multiqc} function requires these identifiers as names.
-Refer to the "Plot Extraction" vignette for more information.
+The main use for this function is finding the plot identifiers
+that you will then pass into the \code{plots} argument of the \code{\link[=load_multiqc]{load_multiqc()}}
+function.
+Refer to the section on "Extracting Plot Data" in the main vignette for more information.
 }
 \examples{
 # Ignore this, choose your own filepath as the `filepath` variable

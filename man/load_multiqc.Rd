@@ -13,48 +13,44 @@ load_multiqc(
 )
 }
 \arguments{
-\item{paths}{A vector of filepaths to multiqc_data.json files}
+\item{paths}{A string vector of filepaths to multiqc_data.json files}
 
-\item{find_metadata}{A function that will be called with a sample name and the
-parsed JSON and returns a named list of metadata fields for the sample}
+\item{plots}{A string vector, each of which contains the ID of a plot you
+want to include in the output. You can use \code{\link[=list_plots]{list_plots()}} to help here.}
 
-\item{sections}{Vector of the sections to include in the output: 'plots'
-in the list means parse plot data, 'general' means parse the general stats
-section, and 'raw' means parse the raw data section. This defaults to
-'general', which tends to contain the most useful statistics}
+\item{find_metadata}{A single function that will be called with a sample name and the
+parsed JSON for the entire report and returns a named list of metadata fields for the sample.
+Refer to the vignette for an example.}
 
-\item{plot_opts}{A named list mapping the internal MultiQC plot name, e.g.
-"fastqc_per_sequence_quality_scores_plot" to a list of options for that plot.
-The list can have the following keys:
+\item{sections}{A string vector of zero or more sections to include in the output.
+Each section can be:
 \describe{
-\item{extractor}{Mandatory for scatter/line plots, ignored for bar graphs.
-A function which converts the raw plot JSON into a some kind of data,
-usually a vector. Often you will want to use a built-in \code{extract_x}
-functions provided by this package}
-\item{summary}{A named list of functions that each map the output from
-the extractor function (usually a 1-D vector) to a scalar, to "summarise"
-it. For example, you might want to use the \code{\link[base:mean]{base::mean()}} function to
-summarise the plot. See also the \code{summary_x} functions in this package.}
-\item{prefix}{Optional. A new name for this plot. MultiQC sometimes has
-some unwieldy names for its plot, so this lets you rename them}
-}}
+\item{"plot"}{Parse plot data. Note that you should also provide a list of plots via the \code{plots} argument}
+\item{"general"}{parse the general stat section}
+\item{"raw"}{Parse the raw data section}
+}
+This defaults to 'general', which tends to contain the most useful statistics}
+
+\item{plot_parsers.}{\link{Advanced} A named list of custom parser functions.
+The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
+that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
+is named by the name of the column. Refer to the source code for some examples.}
 }
 \value{
-A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows
+A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows.
+Columns are named according to the respective section they belong to,
+and will always be listed in the following order:
+\item{\code{metadata.X}}{This column contains metadata for this sample.
+By default this is only the sample ID, but if you have provided the
+\code{find_metadata} argument, there may be more columns.}
+\item{\code{general.X}}{This column contains a generally useful summary statistic for each sample}
+\item{\code{plot.X}}{This column contains a data frame of plot data for each sample}
+\item{\code{raw.X}}{This column contains a raw summary statistic or value relating to each sample}
+}
 }
 \description{
 Loads one or more MultiQCs report into a data frame
 }
 \examples{
-load_multiqc(
-  system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
-  sections = c("plots", "general", "raw"),
-  plot_opts = list(
-    fastqc_per_sequence_quality_scores_plot = list(
-      summary = list(`\%q30` = summary_q30),
-      extractor = extract_histogram,
-      prefix = "quality"
-    )
-  )
-)
+load_multiqc(system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"))
 }
