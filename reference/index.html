@@ -89,18 +89,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/PlotExtraction.html">PlotExtraction</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -154,68 +142,12 @@
           <p><code><a href="load_multiqc.html">load_multiqc()</a></code> </p>
         </td>
         <td><p>Loads one or more MultiQCs report into a data frame</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-plot-extractor-functions" class="hasAnchor"><a href="#section-plot-extractor-functions" class="anchor"></a>Plot Extractor Functions</h2>
-          <p class="section-desc"><p>These functions can be used as arguments to <code><a href="../reference/load_multiqc.html">load_multiqc()</a></code> to specify how to extract data from MultiQC plots</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="extract_histogram.html">extract_histogram()</a></code> </p>
-        </td>
-        <td><p>Extractor function that calculates statistics for a histogram.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="extract_ignore_x.html">extract_ignore_x()</a></code> </p>
+          <p><code><a href="list_plots.html">list_plots()</a></code> </p>
         </td>
-        <td><p>Extractor function that ignores the x-axis and applies statistics over the
-y-values.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="extract_xy.html">extract_xy()</a></code> </p>
-        </td>
-        <td><p>Extractor function that extracts the (x, y) pairs in the plot and puts them
-as columns in a data.frame, with colnames "x" and "y"</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-summary-functions" class="hasAnchor"><a href="#section-summary-functions" class="anchor"></a>Summary Functions</h2>
-          <p class="section-desc"><p>These are also passed as arguments to <code><a href="../reference/load_multiqc.html">load_multiqc()</a></code>. In most cases you can use normal summary statistics like <code><a href="https://rdrr.io/r/base/mean.html">base::mean()</a></code>, but these are some other useful ones you might want.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="summary_extract_df.html">summary_extract_df()</a></code> </p>
-        </td>
-        <td><p>Summary function that only works with the <code>extract_xy()</code> extractor.
-Extracts a single point from the x,y data.frame by first selecting a row
-and then returning the y value for that row</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="summary_q30.html">summary_q30()</a></code> </p>
-        </td>
-        <td><p>Summary statistic for finding the %Q30 of a dataset of quality scores
-This is the proportion of total reads in a dataset that have a quality
-score of 30 or above.</p></td>
+        <td><p>List the plot identifiers of all the plots in a given multiqc report</p></td>
       </tr>
     </tbody>
     </table>

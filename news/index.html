@@ -89,18 +89,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/PlotExtraction.html">PlotExtraction</a>
-    </li>
-  </ul>
-</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -137,7 +125,8 @@
 <h2 class="hasAnchor">
 <a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
 <ul>
-<li>Removed the <code>plot_opts</code> key from the <code>load_multiqc</code> function. Instead, the plots are returns as list columns ie nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal <code>dplyr</code> and <code>tidyr</code> functions. Refer to the vignettes for examples.</li>
+<li>Removed the <code>plot_opts</code> key from the <code>load_multiqc</code> function. Instead, the plots are returns as list columns ie nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal <code>dplyr</code> and <code>tidyr</code> functions. Refer to the vignettes for examples. <a href="https://github.com/multimeric/TidyMultiqc/issues/1">[<a href='https://github.com/multimeric/TidyMultiqc/issues/1'>#1</a>]</a>
+</li>
 <li>Renamed “plots” to “plot” in the <code>sections</code> argument. This ensures consistency with the data frame column names for plots, which are “plot.XX”</li>
 </ul>
 </div>
@@ -145,10 +134,13 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
-<li>Add <code><a href="../reference/list_plots.html">list_plots()</a></code> utility function for listing the available plots</li>
-<li>Add <code>parsers</code> argument to <code>load_multiqc</code> which allows for custom parsers for diverse plot types in multiqc</li>
-<li>Add pkgdown website</li>
-<li>Add GitHub repository and issue tracker to package metadata <a href="https://github.com/multimeric/TidyMultiqc/issues/1"><a href='https://github.com/multimeric/TidyMultiqc/issues/1'>#1</a></a>
+<li>Add <code><a href="../reference/list_plots.html">list_plots()</a></code> utility function for listing the available plots. <a href="https://github.com/multimeric/TidyMultiqc/issues/2">[<a href='https://github.com/multimeric/TidyMultiqc/issues/2'>#2</a>]</a>
+</li>
+<li>Add <code>plot_parsers</code> argument to <code>load_multiqc</code> which allows for custom parsers for diverse plot types in multiqc</li>
+<li>Add <code>plots</code> argument to <code>load_multiqc</code>, which is a vector of plot identifiers to parse</li>
+<li>Add pkgdown website, which is available at <a href="https://github.com/multimeric/TidyMultiqc" class="uri">https://github.com/multimeric/TidyMultiqc</a>
+</li>
+<li>Add GitHub repository and issue tracker to package metadata <a href="https://github.com/multimeric/TidyMultiqc/issues/3">[<a href='https://github.com/multimeric/TidyMultiqc/issues/3'>#3</a>]</a>
 </li>
 </ul>
 </div>
@@ -156,7 +148,7 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li>Fix errors when the data frame contains no data (for example because you only requested a single plot which isn’t present) <a href="https://github.com/multimeric/TidyMultiqc/issues/2"><a href='https://github.com/multimeric/TidyMultiqc/issues/2'>#2</a></a>
+<li>Fix errors when the data frame contains no data (for example because you only requested a single plot which isn’t present) <a href="https://github.com/multimeric/TidyMultiqc/issues/2">[<a href='https://github.com/multimeric/TidyMultiqc/issues/2'>#2</a>]</a>
 </li>
 </ul>
 </div>
