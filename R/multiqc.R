@@ -94,7 +94,7 @@ parse_metadata <- function(parsed, samples, find_metadata) {
     })
 }
 
-#' Loads one or more MultiQCs report into a data frame
+#' Loads one or more MultiQC reports into a data frame
 #' @param paths A string vector of filepaths to multiqc_data.json files
 #' @param find_metadata A single function that will be called with a sample name and the
 #' parsed JSON for the entire report and returns a named list of metadata fields for the sample.

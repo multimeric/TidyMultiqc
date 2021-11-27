@@ -2,7 +2,7 @@
 % Please edit documentation in R/multiqc.R
 \name{load_multiqc}
 \alias{load_multiqc}
-\title{Loads one or more MultiQCs report into a data frame}
+\title{Loads one or more MultiQC reports into a data frame}
 \usage{
 load_multiqc(
   paths,
@@ -49,7 +49,7 @@ Refer to the plot parsers documentation (ie the \code{parse_X} functions) for mo
 \item{\code{raw.X}}{This column contains a raw summary statistic or value relating to each sample }
 }
 \description{
-Loads one or more MultiQCs report into a data frame
+Loads one or more MultiQC reports into a data frame
 }
 \examples{
 load_multiqc(system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"))
