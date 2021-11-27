@@ -31,5 +31,5 @@ Config/testthat/edition: 3
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-URL: https://github.com/multimeric/TidyMultiqc, https://cran.r-project.org/package=TidyMultiqc
+URL: https://multimeric.github.io/TidyMultiqc/, https://github.com/multimeric/TidyMultiqc, https://cran.r-project.org/package=TidyMultiqc
 BugReports: https://github.com/multimeric/TidyMultiqc/issues
