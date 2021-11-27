@@ -10,6 +10,9 @@
 #' @name TidyMultiqc-package
 NULL
 
+# Make R CMD Check hush
+utils::globalVariables(c(".", "metadata.sample_id"))
+
 #' Parses the "general_stats_data" section
 #' @param parsed The full parsed multiqc JSON file
 #' @return A list of samples, each of which has a list of metricsx

@@ -11,7 +11,7 @@
 * Added `list_plots()` utility function for listing the available plots [[#2]](https://github.com/multimeric/TidyMultiqc/issues/2).
 * Added `plot_parsers` argument to `load_multiqc` which allows for custom parsers for diverse plot types in MultiQC.
 * Added `plots` argument to `load_multiqc`, which is a vector of plot identifiers to parse.
-* Created a pkgdown website, which is available at <https://multimeric.github.io/TidyMultiqc>.
+* Created a pkgdown website, which is available at <https://multimeric.github.io/TidyMultiqc/>.
 * Added documentation for the plot parsers, which explains the format of the nested data frame produced for each plot type.
 * Added GitHub repository and issue tracker to package metadata [[#3]](https://github.com/multimeric/TidyMultiqc/issues/3).
 
