@@ -18,3 +18,7 @@
 ## Bug fixes
 
 * Fixed errors when the data frame contains no data (for example because you only requested a single plot which isn't present) [[#2]](https://github.com/multimeric/TidyMultiqc/issues/2).
+
+# Release 1.0.1
+
+* Fixed a bug when the `plots` vector is not provided but `sections = "plot"` [[#5]](https://github.com/multimeric/TidyMultiqc/issues/5)
