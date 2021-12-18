@@ -13,6 +13,9 @@ DEFAULT_PLOT_PARSERS <- list(
 #' @keywords internal
 #' @noRd
 parse_plots <- function(parsed, plots, plot_parsers) {
+  assertthat::assert_that(length(plots) > 0, msg = "If you have requested the plots section, you must provide one or more plots to parse using the `plots` parameter. You may find `list_plots()` helpful.")
+  assertthat::is.string(plots)
+
   # Merge the default parsers with the user provided ones
   parsers <- purrr::list_modify(DEFAULT_PLOT_PARSERS, !!!plot_parsers)
 
