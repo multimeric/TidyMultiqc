@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+multiqc_data_path = system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc")
+```
+
+# TidyMultiqc
+
+TidyMultiqc Provides the means to convert 'multiqc_data.json' files, produced by the wonderful 'MultiQC' tool, into tidy data frames for downstream analysis in R.
+
+**Please visit [the pkgdown website](https://multimeric.github.io/TidyMultiqc/index.html) for a comprehensive tutorial and function documentation.** 
+
+## Installation
+
+The latest stable version can be installed from CRAN:
+```r
+install.packages("TidyMultiqc")
+```
+
+You can also install the development version of TidyMultiqc from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("multimeric/TidyMultiqc")
+```
+
+## Example
+
+```{r example}
+TidyMultiqc::load_multiqc(multiqc_data_path)
+```
