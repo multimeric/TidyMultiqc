@@ -1,4 +1,4 @@
-# Release 1.0.1
+# Release 1.0.2
 
 * Fixed a bug where a `multiqc_data.json` file with `report_general_stats_data` containing arrays of data would break the parser [[#7](https://github.com/multimeric/TidyMultiqc/issues/7)]
 
