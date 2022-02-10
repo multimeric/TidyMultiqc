@@ -1,5 +1,4 @@
 test_that("The package can handle general stats with different lengths", {
-  # This test passes if the following command doesn't fail
   df = load_multiqc(
     paths = system.file("extdata", "general_list/multiqc_data.json", package = "TidyMultiqc"),
     sections = "general"
@@ -11,7 +10,6 @@ test_that("The package can handle general stats with different lengths", {
 })
 
 test_that("The package works when no data is returned", {
-  # This test passes if the following command doesn't fail
   report <- load_multiqc(
     paths = system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
     sections = NULL
@@ -22,7 +20,6 @@ test_that("The package works when no data is returned", {
 })
 
 test_that("The package throws a reasonable error when no plots are provided", {
-  # This test passes if the following command doesn't fail
   testthat::expect_error(
     load_multiqc(
       paths = system.file("extdata", "wgs/multiqc_data.json", package = "TidyMultiqc"),
