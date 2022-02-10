@@ -1,0 +1,28 @@
+{
+  "report_general_stats_data": [
+    {
+      "L504_293": {
+        "salmon_version": "1.5.2",
+        "samp_type": "none",
+        "opt_type": "vb",
+        "quant_errors": [],
+        "num_libraries": 1,
+        "library_types": [
+          "ISR"
+        ],
+        "serialized_eq_classes": false,
+        "eq_class_properties": [
+          "range_factorized",
+          "gzipped"
+        ],
+        "length_classes": [
+          506,
+          647,
+          1002,
+          2225,
+          104301
+        ]
+      }
+    }
+  ]
+}
