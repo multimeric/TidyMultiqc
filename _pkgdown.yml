@@ -2,6 +2,10 @@ url: ~
 reference:
   - title: Core API
     desc: The public API to this package
+  - title: internal
+    # Hide the package level documentation, since it's not helpful
+    contents:
+    - TidyMultiqc-package
   - contents:
     - load_multiqc
     - list_plots
