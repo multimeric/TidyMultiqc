@@ -23,6 +23,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -35,18 +37,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/TidyMultiqc.html">Get started</a>
 </li>
@@ -59,7 +55,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/multimeric/TidyMultiqc/">
+  <a href="https://github.com/multimeric/TidyMultiqc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -76,49 +72,94 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Provides the means to convert 'multiqc_data.json' files,
-    produced by the wonderful 'MultiQC' tool, into tidy data frames for downstream
-    analysis in R. This analysis might involve cohort analysis, quality control visualisation,
-    change-point detection, statistical process control, clustering, or any other
-    type of quality analysis.
+<div class="section level1">
+<div class="page-header"><h1 id="tidymultiqc">TidyMultiqc<a class="anchor" aria-label="anchor" href="#tidymultiqc"></a>
+</h1></div>
+<p>TidyMultiqc Provides the means to convert ‘multiqc_data.json’ files, produced by the wonderful ‘MultiQC’ tool, into tidy data frames for downstream analysis in R.</p>
+<p><strong>Please visit <a href="https://multimeric.github.io/TidyMultiqc/index.html" class="external-link">the pkgdown website</a> for a comprehensive tutorial and function documentation.</strong></p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>The latest stable version can be installed from CRAN:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"TidyMultiqc"</span><span class="op">)</span></code></pre></div>
+<p>You can also install the development version of TidyMultiqc from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"multimeric/TidyMultiqc"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span><span class="va">multiqc_data_path</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 × 165</span>
+<span class="co">#&gt;   metadata.sample_id general.total_reads general.mapped_reads general.percentag…</span>
+<span class="co">#&gt;   &lt;chr&gt;                            &lt;dbl&gt;                &lt;dbl&gt;              &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 P4107_1003                   868204107            847562410               97.6</span>
+<span class="co">#&gt; 2 P4107_1004                  1002828927            985115356               98.2</span>
+<span class="co">#&gt; 3 P4107_1005                   974955793            955921317               98.0</span>
+<span class="co">#&gt; 4 P4107_1002                   865975844            847067526               97.8</span>
+<span class="co">#&gt; 5 P4107_1006                   912383669            894970438               98.1</span>
+<span class="co">#&gt; 6 P4107_1001                   772071557            751147332               97.3</span>
+<span class="co">#&gt; # … with 161 more variables: general.median_coverage &lt;int&gt;,</span>
+<span class="co">#&gt; #   general.median_insert_size &lt;int&gt;, general.avg_gc &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   general.1_x_pc &lt;dbl&gt;, general.5_x_pc &lt;dbl&gt;, general.10_x_pc &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   general.30_x_pc &lt;dbl&gt;, general.50_x_pc &lt;dbl&gt;, general.genome &lt;chr&gt;,</span>
+<span class="co">#&gt; #   general.number_of_variants_before_filter &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;, …</span></code></pre></div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=TidyMultiqc">https://​cloud.r-project.org/​package=TidyMultiqc</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/multimeric/TidyMultiqc/">https://​github.com/​multimeric/​TidyMultiqc/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/multimeric/TidyMultiqc/issues">https://​github.com/​multimeric/​TidyMultiqc/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=TidyMultiqc" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/multimeric/TidyMultiqc/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/multimeric/TidyMultiqc/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>GPL (&gt;= 3)</small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing TidyMultiqc</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Michael Milton <br><small class="roles"> Maintainer </small>  </li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael Milton.</p>
+  <p></p>
+<p>Developed by Michael Milton.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -126,6 +167,8 @@ Provides the means to convert 'multiqc_data.json' files,
 
   
 
+
+  
 
   </body>
 </html>

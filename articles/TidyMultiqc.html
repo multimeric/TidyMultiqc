@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/TidyMultiqc.html">Get started</a>
 </li>
@@ -55,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/multimeric/TidyMultiqc/">
+  <a href="https://github.com/multimeric/TidyMultiqc/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -70,51 +66,39 @@
 
       
 
-      </header><script src="TidyMultiqc_files/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="TidyMultiqc_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-<script src="TidyMultiqc_files/bootstrap-3.3.5/js/bootstrap.min.js"></script><script src="TidyMultiqc_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script><script src="TidyMultiqc_files/bootstrap-3.3.5/shim/respond.min.js"></script><style>h1 {font-size: 34px;}
-       h1.title {font-size: 38px;}
-       h2 {font-size: 30px;}
-       h3 {font-size: 24px;}
-       h4 {font-size: 18px;}
-       h5 {font-size: 16px;}
-       h6 {font-size: 12px;}
-       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
-       pre:not([class]) { background-color: white }</style>
-<script src="TidyMultiqc_files/navigation-1.1/tabsets.js"></script><script src="TidyMultiqc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="TidyMultiqc_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-<script src="TidyMultiqc_files/pagedtable-1.1/js/pagedtable.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>TidyMultiqc</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/multimeric/TidyMultiqc/blob/master/vignettes/TidyMultiqc.Rmd"><code>vignettes/TidyMultiqc.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/multimeric/TidyMultiqc/blob/HEAD/vignettes/TidyMultiqc.Rmd" class="external-link"><code>vignettes/TidyMultiqc.Rmd</code></a></small>
       <div class="hidden name"><code>TidyMultiqc.Rmd</code></div>
 
     </div>
 
     
     
-<div id="test-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#test-data" class="anchor"></a>Test Data</h2>
-<p>In this example we’ll be using the WGS example report used in the MultiQC documentation. You can find view the report in your browser <a href="https://multiqc.info/examples/wgs/multiqc_report.html">here</a>, and find the associated <code>multiqc_data.json</code> file <a href="https://github.com/ewels/MultiQC_website/blob/master/public_html/examples/wgs/multiqc_data/multiqc_data.json">here</a>. Feel free to download this file and use it to follow along with this vignette.</p>
+<div class="section level2">
+<h2 id="test-data">Test Data<a class="anchor" aria-label="anchor" href="#test-data"></a>
+</h2>
+<p>In this example we’ll be using the WGS example report used in the MultiQC documentation. You can find view the report in your browser <a href="https://multiqc.info/examples/wgs/multiqc_report.html" class="external-link">here</a>, and find the associated <code>multiqc_data.json</code> file <a href="https://github.com/ewels/MultiQC_website/blob/master/public_html/examples/wgs/multiqc_data/multiqc_data.json" class="external-link">here</a>. Feel free to download this file and use it to follow along with this vignette.</p>
 <p>In the rest of the vignette we will use the <code>multiqc_data_path</code> variable to indicate the path to this <code>multiqc_data.json</code> file. Feel free to set this variable to the path to this file on your system.</p>
 </div>
-<div id="setup" class="section level2">
-<h2 class="hasAnchor">
-<a href="#setup" class="anchor"></a>Setup</h2>
+<div class="section level2">
+<h2 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
+</h2>
 <p>First, install the package using:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"TidyMultiqc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"TidyMultiqc"</span><span class="op">)</span></code></pre></div>
 <p>Then if you want, you can load the package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://multimeric.github.io/TidyMultiqc/">TidyMultiqc</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://multimeric.github.io/TidyMultiqc/" class="external-link">TidyMultiqc</a></span><span class="op">)</span></code></pre></div>
 <p>However, for the sake of this tutorial we will explicitly use namespaced functions, so we won’t be using <code>library</code> a great deal.</p>
 </div>
-<div id="basic-usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-usage" class="anchor"></a>Basic Usage</h2>
+<div class="section level2">
+<h2 id="basic-usage">Basic Usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
+</h2>
 <p>The main entry point to the <code>TidyMultiqc</code> package is the function <code>load_multiqc</code>. A basic invocation of this function looks like this:</p>
 <p>(note the arrow for scrolling through columns)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -137,34 +121,34 @@
 <p>Often you won’t care about fields like <code>raw.qualimap_bamqc_genome_results.bam_file</code>, the path to the original BAM file, but ‘raw’ at least provides this option.</p>
 <p>You can also combine both <code>general</code> and <code>raw</code> sections by passing in a longer vector:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df_both</span> <span class="op">=</span> <span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span><span class="va">multiqc_data_path</span>, sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'raw'</span>, <span class="st">'general'</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">df_both</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">df_both</span> <span class="op">=</span> <span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span><span class="va">multiqc_data_path</span>, sections <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'raw'</span>, <span class="st">'general'</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">df_both</span><span class="op">)</span>
 <span class="co">#&gt; [1] 388</span></code></pre></div>
 <p>That’s a lot of columns!</p>
 </div>
-<div id="uses" class="section level2">
-<h2 class="hasAnchor">
-<a href="#uses" class="anchor"></a>Uses</h2>
+<div class="section level2">
+<h2 id="uses">Uses<a class="anchor" aria-label="anchor" href="#uses"></a>
+</h2>
 <p>This section will briefly talk about some downstream use-cases for this package.</p>
-<div id="plotting" class="section level3">
-<h3 class="hasAnchor">
-<a href="#plotting" class="anchor"></a>Plotting</h3>
+<div class="section level3">
+<h3 id="plotting">Plotting<a class="anchor" aria-label="anchor" href="#plotting"></a>
+</h3>
 <p>One use for this data frame is creating QC plots. For example, to visualise the duplication rate per sample:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
 
-<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">metadata.sample_id</span>, y<span class="op">=</span><span class="va">general.percent_duplication</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">metadata.sample_id</span>, y<span class="op">=</span><span class="va">general.percent_duplication</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="TidyMultiqc_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Of course, this is basically just replicating a plot already in the MultiQC report, but now we can customise it how we like!</p>
 </div>
-<div id="hypothesis-testing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hypothesis-testing" class="anchor"></a>Hypothesis Testing</h3>
+<div class="section level3">
+<h3 id="hypothesis-testing">Hypothesis Testing<a class="anchor" aria-label="anchor" href="#hypothesis-testing"></a>
+</h3>
 <p>With all this data, we might also want to test a specific hypothesis! For example, we might want to test the hypothesis that the mean GC content is the same as the mean GC content in the human genome (41%). If we assume that GC content is normally distributed, we can do the following:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">general.percent_gc</span>, mu<span class="op">=</span><span class="fl">41</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/t.test.html" class="external-link">t.test</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">general.percent_gc</span>, mu<span class="op">=</span><span class="fl">41</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  One Sample t-test</span>
 <span class="co">#&gt; </span>
@@ -179,22 +163,22 @@
 <p>It seems that we cannot reject this hypothesis, so these may well be human samples!</p>
 </div>
 </div>
-<div id="extracting-metadata" class="section level2">
-<h2 class="hasAnchor">
-<a href="#extracting-metadata" class="anchor"></a>Extracting Metadata</h2>
+<div class="section level2">
+<h2 id="extracting-metadata">Extracting Metadata<a class="anchor" aria-label="anchor" href="#extracting-metadata"></a>
+</h2>
 <p>It may be the case that your samples have important metadata that you want in your data frame. For example, it is common for the sample names or file names to be composed of a number of metadata fields, and indeed the report we are working with has IDs such as <code>P4107_1003</code>, which is composed of two identifiers.</p>
 <p>To include this metadata in our output, we need to provide the <code>find_metadata</code> argument to <code>load_multiqc</code>, which is a function that is called for each sample, and which returns a named vector of metadata fields for that sample. It also gets passed the entire parsed MultiQC JSON report, so the function can traverse the structure as it wants to extract metadata.</p>
-<div id="from-the-file-name" class="section level3">
-<h3 class="hasAnchor">
-<a href="#from-the-file-name" class="anchor"></a>From the File Name</h3>
+<div class="section level3">
+<h3 id="from-the-file-name">From the File Name<a class="anchor" aria-label="anchor" href="#from-the-file-name"></a>
+</h3>
 <p>Here is an example that parses the input file names to annotate additional metadata. Notice that the first argument our function is passed is a string which is the sample identifier for a sample, and how in this example we ignore the <code>parsed</code> argument. Also notice that the names we give to our return value (“batch” and “sample”) are prefixed by “metadata” to become the final names in the data frame.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span>
   <span class="va">multiqc_data_path</span>, 
   find_metadata <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">sample</span>, <span class="va">parsed</span><span class="op">)</span> <span class="op">{</span>
     <span class="co"># Split the sample ID to obtain some metadata</span>
-    <span class="va">segments</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">sample</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+    <span class="va">segments</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html" class="external-link">str_split</a></span><span class="op">(</span><span class="va">sample</span>, <span class="st">"_"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
       batch <span class="op">=</span> <span class="va">segments</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,
       sample <span class="op">=</span> <span class="va">segments</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
     <span class="op">)</span>
@@ -206,9 +190,9 @@
   </script>
 </div>
 </div>
-<div id="from-the-file-path" class="section level3">
-<h3 class="hasAnchor">
-<a href="#from-the-file-path" class="anchor"></a>From the File Path</h3>
+<div class="section level3">
+<h3 id="from-the-file-path">From the File Path<a class="anchor" aria-label="anchor" href="#from-the-file-path"></a>
+</h3>
 <p>We can extend this approach, but this time actually look up the file paths within the <code>report_data_sources</code> section of the MultiQC report:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span>
@@ -217,13 +201,13 @@
     <span class="co"># This gives us the path to the fastqc output file</span>
     <span class="va">filepath</span> <span class="op">=</span> <span class="va">parsed</span><span class="op">$</span><span class="va">report_data_sources</span><span class="op">$</span><span class="va">FastQC</span><span class="op">$</span><span class="va">all_sections</span><span class="op">[[</span><span class="va">sample</span><span class="op">]</span><span class="op">]</span>
     <span class="co"># Split into path segments</span>
-    <span class="va">path_segments</span> <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">filepath</span>, <span class="st">"/"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+    <span class="va">path_segments</span> <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html" class="external-link">str_split</a></span><span class="op">(</span><span class="va">filepath</span>, <span class="st">"/"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
     <span class="co"># The filename is the last path segment</span>
-    <span class="va">filename</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">last</a></span><span class="op">(</span><span class="va">path_segments</span><span class="op">)</span>
+    <span class="va">filename</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">last</a></span><span class="op">(</span><span class="va">path_segments</span><span class="op">)</span>
     <span class="co"># Split the filename using dots and underscores</span>
-    <span class="va">name_segments</span> <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">filename</span>, <span class="st">"[_\\.]"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+    <span class="va">name_segments</span> <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html" class="external-link">str_split</a></span><span class="op">(</span><span class="va">filename</span>, <span class="st">"[_\\.]"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
     <span class="co"># Arbitrarily assign names for the outputs</span>
-    <span class="va">name_segments</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">name_segments</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+    <span class="va">name_segments</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">name_segments</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
   <span class="op">}</span>
 <span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -233,15 +217,15 @@
 </div>
 <p>Of course in a real application we would choose specific names for each field.</p>
 </div>
-<div id="from-multiqc-configuration" class="section level3">
-<h3 class="hasAnchor">
-<a href="#from-multiqc-configuration" class="anchor"></a>From MultiQC Configuration</h3>
+<div class="section level3">
+<h3 id="from-multiqc-configuration">From MultiQC Configuration<a class="anchor" aria-label="anchor" href="#from-multiqc-configuration"></a>
+</h3>
 <p>Finally, we might want to include metadata that doesn’t relate to the sample at all. For example, MultiQC has a number of report fields prefixed by <code>config_</code> that we might want to store:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span>
   <span class="va">multiqc_data_path</span>, 
   find_metadata <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">sample</span>, <span class="va">parsed</span><span class="op">)</span> <span class="op">{</span>
-    <span class="va">parsed</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+    <span class="va">parsed</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
       <span class="st">"config_creation_date"</span>,
       <span class="st">"config_version"</span>
     <span class="op">)</span><span class="op">]</span>
@@ -254,15 +238,15 @@
 </div>
 </div>
 </div>
-<div id="extracting-plot-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#extracting-plot-data" class="anchor"></a>Extracting Plot Data</h2>
-<div id="motivation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#motivation" class="anchor"></a>Motivation</h3>
+<div class="section level2">
+<h2 id="extracting-plot-data">Extracting Plot Data<a class="anchor" aria-label="anchor" href="#extracting-plot-data"></a>
+</h2>
+<div class="section level3">
+<h3 id="motivation">Motivation<a class="anchor" aria-label="anchor" href="#motivation"></a>
+</h3>
 <p>It is occasionally useful to extract QC data from the MultiQC plots. For example, let’s say we want to calculate the median quality score of every base in each sample. Unfortunately, MultiQC provides no numerical summary statistic for the read quality, it only has mapping quality and pass/fails for the per-base sequence quality:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df_both</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">'quality'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">df_both</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">'quality'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["raw.qualimap_bamqc_genome_results.mean_mapping_quality"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["raw.fastqc.sequences_flagged_as_poor_quality"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["raw.fastqc.per_base_sequence_quality"],"name":[3],"type":["chr"],"align":["left"]},{"label":["raw.fastqc.per_tile_sequence_quality"],"name":[4],"type":["chr"],"align":["left"]},{"label":["raw.fastqc.per_sequence_quality_scores"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"50.34","2":"0","3":"pass","4":"warn","5":"pass"},{"1":"50.37","2":"0","3":"pass","4":"fail","5":"pass"},{"1":"50.34","2":"0","3":"pass","4":"warn","5":"pass"},{"1":"50.33","2":"0","3":"pass","4":"fail","5":"pass"},{"1":"50.33","2":"0","3":"pass","4":"warn","5":"pass"},{"1":"50.32","2":"0","3":"pass","4":"warn","5":"pass"}],"options":{"columns":{"min":{},"max":[3]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -270,9 +254,9 @@
 </div>
 <p>However, our MultiQC report does have <em>plots</em> that contain this information. In particular, let’s look at the “Per Sequence Quality Scores” plot.</p>
 </div>
-<div id="listing-plots" class="section level3">
-<h3 class="hasAnchor">
-<a href="#listing-plots" class="anchor"></a>Listing Plots</h3>
+<div class="section level3">
+<h3 id="listing-plots">Listing Plots<a class="anchor" aria-label="anchor" href="#listing-plots"></a>
+</h3>
 <p>Firstly, we need the ID of the plot we want. This isn’t necessarily obvious from just looking at the report, so we can use a utility function here:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/list_plots.html">list_plots</a></span><span class="op">(</span><span class="va">multiqc_data_path</span><span class="op">)</span></code></pre></div>
@@ -283,9 +267,9 @@
 </div>
 <p>Now, we know we want the “Per Sequence Quality Scores” plot, and by looking at the data frame above we can tell that the corresponding ID is <code>fastqc_per_sequence_quality_scores_plot</code>.</p>
 </div>
-<div id="loading-plots" class="section level3">
-<h3 class="hasAnchor">
-<a href="#loading-plots" class="anchor"></a>Loading Plots</h3>
+<div class="section level3">
+<h3 id="loading-plots">Loading Plots<a class="anchor" aria-label="anchor" href="#loading-plots"></a>
+</h3>
 <p>Now that we have the plot ID, we can load the plot data. First, we need to tell <code>TidyMultiqc</code> to load include some plots by using <code>sections = "plot"</code> (you can load other sections at the same time, as explained above). Also, we need to pass the plot ID from the previous step into the <code>plots</code> argument:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span> <span class="op">=</span> <span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span>
@@ -301,9 +285,9 @@
 </div>
 <p>We now have the plot data, but it’s not in a very usable form! This is because each sample has an entire data frame of plot data. At this point if you’re comfortable using <code>dplyr</code> and <code>tidyr</code> to deal with nested data frames, you probably know what to do. Otherwise, read on.</p>
 </div>
-<div id="converting-plot-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#converting-plot-data" class="anchor"></a>Converting Plot Data</h3>
+<div class="section level3">
+<h3 id="converting-plot-data">Converting Plot Data<a class="anchor" aria-label="anchor" href="#converting-plot-data"></a>
+</h3>
 <p>Recall that we are after the median quality score of each sample. First, we should look at the plot data for a single sample to know what we’re dealing with:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">df</span><span class="op">$</span><span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></code></pre></div>
@@ -314,13 +298,13 @@
 </div>
 <p>So each data frame is a set of x, y pairs. As it’s a histogram plot, we know that the <code>x</code> value is the quality score, and <code>y</code> is the number of times that score has been counted.</p>
 </div>
-<div id="unnesting" class="section level3">
-<h3 class="hasAnchor">
-<a href="#unnesting" class="anchor"></a>Unnesting</h3>
+<div class="section level3">
+<h3 id="unnesting">Unnesting<a class="anchor" aria-label="anchor" href="#unnesting"></a>
+</h3>
 <p>One possible way to process this nested data is to use <code>tidyr</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["metadata.sample_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["x"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["y"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"P4107_1001","2":"7","3":"2"},{"1":"P4107_1001","2":"8","3":"13"},{"1":"P4107_1001","2":"9","3":"121"},{"1":"P4107_1001","2":"10","3":"702"},{"1":"P4107_1001","2":"11","3":"3962"},{"1":"P4107_1001","2":"12","3":"11946"},{"1":"P4107_1001","2":"13","3":"33566"},{"1":"P4107_1001","2":"14","3":"77653"},{"1":"P4107_1001","2":"15","3":"157422"},{"1":"P4107_1001","2":"16","3":"294209"},{"1":"P4107_1001","2":"17","3":"492475"},{"1":"P4107_1001","2":"18","3":"720687"},{"1":"P4107_1001","2":"19","3":"963842"},{"1":"P4107_1001","2":"20","3":"1219092"},{"1":"P4107_1001","2":"21","3":"1516173"},{"1":"P4107_1001","2":"22","3":"1885944"},{"1":"P4107_1001","2":"23","3":"2388458"},{"1":"P4107_1001","2":"24","3":"3233075"},{"1":"P4107_1001","2":"25","3":"4949305"},{"1":"P4107_1001","2":"26","3":"4684978"},{"1":"P4107_1001","2":"27","3":"4090747"},{"1":"P4107_1001","2":"28","3":"4478935"},{"1":"P4107_1001","2":"29","3":"5015234"},{"1":"P4107_1001","2":"30","3":"5656014"},{"1":"P4107_1001","2":"31","3":"6451225"},{"1":"P4107_1001","2":"32","3":"7424908"},{"1":"P4107_1001","2":"33","3":"8637645"},{"1":"P4107_1001","2":"34","3":"10176351"},{"1":"P4107_1001","2":"35","3":"12193425"},{"1":"P4107_1001","2":"36","3":"14987094"},{"1":"P4107_1001","2":"37","3":"19130838"},{"1":"P4107_1001","2":"38","3":"26042098"},{"1":"P4107_1001","2":"39","3":"39815694"},{"1":"P4107_1001","2":"40","3":"76771779"},{"1":"P4107_1001","2":"41","3":"120087144"},{"1":"P4107_1002","2":"4","3":"25"},{"1":"P4107_1002","2":"5","3":"139"},{"1":"P4107_1002","2":"6","3":"585"},{"1":"P4107_1002","2":"7","3":"1304"},{"1":"P4107_1002","2":"8","3":"2821"},{"1":"P4107_1002","2":"9","3":"2098"},{"1":"P4107_1002","2":"10","3":"2606"},{"1":"P4107_1002","2":"11","3":"6814"},{"1":"P4107_1002","2":"12","3":"16942"},{"1":"P4107_1002","2":"13","3":"37242"},{"1":"P4107_1002","2":"14","3":"73652"},{"1":"P4107_1002","2":"15","3":"142281"},{"1":"P4107_1002","2":"16","3":"260519"},{"1":"P4107_1002","2":"17","3":"436736"},{"1":"P4107_1002","2":"18","3":"643278"},{"1":"P4107_1002","2":"19","3":"858052"},{"1":"P4107_1002","2":"20","3":"1079212"},{"1":"P4107_1002","2":"21","3":"1331165"},{"1":"P4107_1002","2":"22","3":"1635514"},{"1":"P4107_1002","2":"23","3":"2065815"},{"1":"P4107_1002","2":"24","3":"2771904"},{"1":"P4107_1002","2":"25","3":"4013731"},{"1":"P4107_1002","2":"26","3":"3899894"},{"1":"P4107_1002","2":"27","3":"3734971"},{"1":"P4107_1002","2":"28","3":"4188151"},{"1":"P4107_1002","2":"29","3":"4732353"},{"1":"P4107_1002","2":"30","3":"5379255"},{"1":"P4107_1002","2":"31","3":"6196752"},{"1":"P4107_1002","2":"32","3":"7216376"},{"1":"P4107_1002","2":"33","3":"8511646"},{"1":"P4107_1002","2":"34","3":"10214246"},{"1":"P4107_1002","2":"35","3":"12531450"},{"1":"P4107_1002","2":"36","3":"15780505"},{"1":"P4107_1002","2":"37","3":"20674446"},{"1":"P4107_1002","2":"38","3":"29362020"},{"1":"P4107_1002","2":"39","3":"47669147"},{"1":"P4107_1002","2":"40","3":"93655368"},{"1":"P4107_1002","2":"41","3":"141056509"},{"1":"P4107_1003","2":"11","3":"53"},{"1":"P4107_1003","2":"12","3":"131"},{"1":"P4107_1003","2":"13","3":"241"},{"1":"P4107_1003","2":"14","3":"713"},{"1":"P4107_1003","2":"15","3":"2300"},{"1":"P4107_1003","2":"16","3":"6178"},{"1":"P4107_1003","2":"17","3":"15427"},{"1":"P4107_1003","2":"18","3":"35973"},{"1":"P4107_1003","2":"19","3":"74954"},{"1":"P4107_1003","2":"20","3":"133756"},{"1":"P4107_1003","2":"21","3":"214521"},{"1":"P4107_1003","2":"22","3":"332873"},{"1":"P4107_1003","2":"23","3":"625270"},{"1":"P4107_1003","2":"24","3":"1873645"},{"1":"P4107_1003","2":"25","3":"2263770"},{"1":"P4107_1003","2":"26","3":"1288657"},{"1":"P4107_1003","2":"27","3":"1362434"},{"1":"P4107_1003","2":"28","3":"1720050"},{"1":"P4107_1003","2":"29","3":"2211087"},{"1":"P4107_1003","2":"30","3":"2812069"},{"1":"P4107_1003","2":"31","3":"3521357"},{"1":"P4107_1003","2":"32","3":"4366396"},{"1":"P4107_1003","2":"33","3":"5352039"},{"1":"P4107_1003","2":"34","3":"6527855"},{"1":"P4107_1003","2":"35","3":"7951809"},{"1":"P4107_1003","2":"36","3":"9782576"},{"1":"P4107_1003","2":"37","3":"12356832"},{"1":"P4107_1003","2":"38","3":"16488919"},{"1":"P4107_1003","2":"39","3":"24750325"},{"1":"P4107_1003","2":"40","3":"50915004"},{"1":"P4107_1003","2":"41","3":"274391786"},{"1":"P4107_1004","2":"10","3":"8"},{"1":"P4107_1004","2":"11","3":"240"},{"1":"P4107_1004","2":"12","3":"415"},{"1":"P4107_1004","2":"13","3":"592"},{"1":"P4107_1004","2":"14","3":"1176"},{"1":"P4107_1004","2":"15","3":"3243"},{"1":"P4107_1004","2":"16","3":"7274"},{"1":"P4107_1004","2":"17","3":"15521"},{"1":"P4107_1004","2":"18","3":"32396"},{"1":"P4107_1004","2":"19","3":"63717"},{"1":"P4107_1004","2":"20","3":"110921"},{"1":"P4107_1004","2":"21","3":"171625"},{"1":"P4107_1004","2":"22","3":"255367"},{"1":"P4107_1004","2":"23","3":"435504"},{"1":"P4107_1004","2":"24","3":"1104544"},{"1":"P4107_1004","2":"25","3":"1341224"},{"1":"P4107_1004","2":"26","3":"827368"},{"1":"P4107_1004","2":"27","3":"954386"},{"1":"P4107_1004","2":"28","3":"1232766"},{"1":"P4107_1004","2":"29","3":"1588433"},{"1":"P4107_1004","2":"30","3":"2009942"},{"1":"P4107_1004","2":"31","3":"2505847"},{"1":"P4107_1004","2":"32","3":"3106641"},{"1":"P4107_1004","2":"33","3":"3835395"},{"1":"P4107_1004","2":"34","3":"4730571"},{"1":"P4107_1004","2":"35","3":"5885516"},{"1":"P4107_1004","2":"36","3":"7446809"},{"1":"P4107_1004","2":"37","3":"9790707"},{"1":"P4107_1004","2":"38","3":"13723853"},{"1":"P4107_1004","2":"39","3":"22000798"},{"1":"P4107_1004","2":"40","3":"50029383"},{"1":"P4107_1004","2":"41","3":"364953217"},{"1":"P4107_1005","2":"2","3":"1"},{"1":"P4107_1005","2":"3","3":"119"},{"1":"P4107_1005","2":"4","3":"686"},{"1":"P4107_1005","2":"5","3":"624"},{"1":"P4107_1005","2":"6","3":"955"},{"1":"P4107_1005","2":"7","3":"661"},{"1":"P4107_1005","2":"8","3":"730"},{"1":"P4107_1005","2":"9","3":"1166"},{"1":"P4107_1005","2":"10","3":"3056"},{"1":"P4107_1005","2":"11","3":"11132"},{"1":"P4107_1005","2":"12","3":"26048"},{"1":"P4107_1005","2":"13","3":"54367"},{"1":"P4107_1005","2":"14","3":"99661"},{"1":"P4107_1005","2":"15","3":"176234"},{"1":"P4107_1005","2":"16","3":"296539"},{"1":"P4107_1005","2":"17","3":"454566"},{"1":"P4107_1005","2":"18","3":"631059"},{"1":"P4107_1005","2":"19","3":"817658"},{"1":"P4107_1005","2":"20","3":"1013795"},{"1":"P4107_1005","2":"21","3":"1236375"},{"1":"P4107_1005","2":"22","3":"1500932"},{"1":"P4107_1005","2":"23","3":"1829820"},{"1":"P4107_1005","2":"24","3":"2338522"},{"1":"P4107_1005","2":"25","3":"3607447"},{"1":"P4107_1005","2":"26","3":"3825112"},{"1":"P4107_1005","2":"27","3":"3602005"},{"1":"P4107_1005","2":"28","3":"4043534"},{"1":"P4107_1005","2":"29","3":"4569951"},{"1":"P4107_1005","2":"30","3":"5196655"},{"1":"P4107_1005","2":"31","3":"5974887"},{"1":"P4107_1005","2":"32","3":"6943973"},{"1":"P4107_1005","2":"33","3":"8150541"},{"1":"P4107_1005","2":"34","3":"9720403"},{"1":"P4107_1005","2":"35","3":"11870874"},{"1":"P4107_1005","2":"36","3":"14962601"},{"1":"P4107_1005","2":"37","3":"19846197"},{"1":"P4107_1005","2":"38","3":"28547559"},{"1":"P4107_1005","2":"39","3":"47793557"},{"1":"P4107_1005","2":"40","3":"106696068"},{"1":"P4107_1005","2":"41","3":"188387356"},{"1":"P4107_1006","2":"2","3":"257"},{"1":"P4107_1006","2":"3","3":"140"},{"1":"P4107_1006","2":"4","3":"247"},{"1":"P4107_1006","2":"5","3":"640"},{"1":"P4107_1006","2":"6","3":"2061"},{"1":"P4107_1006","2":"7","3":"3876"},{"1":"P4107_1006","2":"8","3":"2156"},{"1":"P4107_1006","2":"9","3":"2675"},{"1":"P4107_1006","2":"10","3":"4007"},{"1":"P4107_1006","2":"11","3":"12792"},{"1":"P4107_1006","2":"12","3":"32360"},{"1":"P4107_1006","2":"13","3":"76898"},{"1":"P4107_1006","2":"14","3":"154000"},{"1":"P4107_1006","2":"15","3":"268598"},{"1":"P4107_1006","2":"16","3":"434660"},{"1":"P4107_1006","2":"17","3":"649473"},{"1":"P4107_1006","2":"18","3":"893546"},{"1":"P4107_1006","2":"19","3":"1157234"},{"1":"P4107_1006","2":"20","3":"1435336"},{"1":"P4107_1006","2":"21","3":"1749248"},{"1":"P4107_1006","2":"22","3":"2107005"},{"1":"P4107_1006","2":"23","3":"2535756"},{"1":"P4107_1006","2":"24","3":"3153180"},{"1":"P4107_1006","2":"25","3":"4218597"},{"1":"P4107_1006","2":"26","3":"4401416"},{"1":"P4107_1006","2":"27","3":"4510035"},{"1":"P4107_1006","2":"28","3":"5050153"},{"1":"P4107_1006","2":"29","3":"5670374"},{"1":"P4107_1006","2":"30","3":"6412524"},{"1":"P4107_1006","2":"31","3":"7305795"},{"1":"P4107_1006","2":"32","3":"8413673"},{"1":"P4107_1006","2":"33","3":"9793420"},{"1":"P4107_1006","2":"34","3":"11569918"},{"1":"P4107_1006","2":"35","3":"13951919"},{"1":"P4107_1006","2":"36","3":"17319076"},{"1":"P4107_1006","2":"37","3":"22462006"},{"1":"P4107_1006","2":"38","3":"31296445"},{"1":"P4107_1006","2":"39","3":"49758271"},{"1":"P4107_1006","2":"40","3":"100055550"},{"1":"P4107_1006","2":"41","3":"136373293"}],"options":{"columns":{"min":{},"max":[3]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -328,24 +312,24 @@
 </div>
 <p>As you can see, if we unnest in this way, we now have multiple rows for the same sample, which is a bit confusing (and not Tidy). However, if we use <code>group_by</code> and then <code>summarise</code>, this can be a useful way to calculate summary statistics. For example, if we want the total number of reads, we could do the following:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">metadata.sample_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>total_reads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">metadata.sample_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarise</a></span><span class="op">(</span>total_reads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["metadata.sample_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_reads"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"P4107_1001","2":"383592756"},{"1":"P4107_1002","2":"430185524"},{"1":"P4107_1003","2":"431379000"},{"1":"P4107_1004","2":"498165399"},{"1":"P4107_1005","2":"484233426"},{"1":"P4107_1006","2":"453238610"}],"options":{"columns":{"min":{},"max":[3]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div id="mapping-with-purrr" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mapping-with-purrr" class="anchor"></a>Mapping with Purrr</h3>
-<p>Although unnesting worked well in this example, it can get a bit awkward for more complex operations. In these cases we can use <code>purrr</code>. Refer to the next section for an example that compares both approaches. The below example sums the number of reads for each sample, as we have done above, but this time it uses <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_dbl</a></code> to map over the list of data frames:</p>
+<div class="section level3">
+<h3 id="mapping-with-purrr">Mapping with Purrr<a class="anchor" aria-label="anchor" href="#mapping-with-purrr"></a>
+</h3>
+<p>Although unnesting worked well in this example, it can get a bit awkward for more complex operations. In these cases we can use <code>purrr</code>. Refer to the next section for an example that compares both approaches. The below example sums the number of reads for each sample, as we have done above, but this time it uses <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map_dbl</a></code> to map over the list of data frames:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    total_reads <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span><span class="op">(</span><span class="va">plot.fastqc_per_sequence_quality_scores_plot</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
+    total_reads <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">plot.fastqc_per_sequence_quality_scores_plot</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>,
     plot.fastqc_per_sequence_quality_scores_plot <span class="op">=</span> <span class="cn">NULL</span>
   <span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
@@ -354,23 +338,23 @@
   </script>
 </div>
 </div>
-<div id="properly-handling-histogram-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#properly-handling-histogram-data" class="anchor"></a>Properly Handling Histogram Data</h3>
-<p>Of course, we actually want to find the median here, which is a bit harder. Luckily there exists a package called <code>HistDat</code> for generating summary statistics from histogram-type data. You can check out the package’s manual and vignettes <a href="https://cran.r-project.org/package=HistDat">here</a>, but in brief, we want to convert each of these plot data frames into a <code>HistDat</code> object, which we can do using the same strategies as before. Then, using <code>HistDat</code>, we can calculate our summary statistics in one of the two ways mentioned above.</p>
+<div class="section level3">
+<h3 id="properly-handling-histogram-data">Properly Handling Histogram Data<a class="anchor" aria-label="anchor" href="#properly-handling-histogram-data"></a>
+</h3>
+<p>Of course, we actually want to find the median here, which is a bit harder. Luckily there exists a package called <code>HistDat</code> for generating summary statistics from histogram-type data. You can check out the package’s manual and vignettes <a href="https://cran.r-project.org/package=HistDat" class="external-link">here</a>, but in brief, we want to convert each of these plot data frames into a <code>HistDat</code> object, which we can do using the same strategies as before. Then, using <code>HistDat</code>, we can calculate our summary statistics in one of the two ways mentioned above.</p>
 <p>Using the <code>tidyr</code> approach, we can unnest the plot data, group it, create a <code>HistDat</code> object for each group, and then produce new columns using the new <code>hist</code> column:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">metadata.sample_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>hist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu">HistDat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/HistDat/man/HistDat.html">HistDat</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="va">x</span>, counts <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span>, .keep <span class="op">=</span> <span class="st">"unused"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    mean_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="op">)</span>,
-    median_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="op">)</span>,
-    max_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="va">plot.fastqc_per_sequence_quality_scores_plot</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">metadata.sample_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>hist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu">HistDat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/HistDat/man/HistDat.html" class="external-link">HistDat</a></span><span class="op">(</span>vals <span class="op">=</span> <span class="va">x</span>, counts <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span>, .keep <span class="op">=</span> <span class="st">"unused"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
+    mean_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">)</span>,
+    median_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="op">)</span>,
+    max_coverage <span class="op">=</span> <span class="va">hist</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/nth.html" class="external-link">first</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="op">)</span>,
     hist<span class="op">=</span> <span class="cn">NULL</span>
-  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["metadata.sample_id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mean_coverage"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["median_coverage"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["max_coverage"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"P4107_1001","2":"37.42207","3":"40","4":"41"},{"1":"P4107_1002","2":"37.86446","3":"40","4":"41"},{"1":"P4107_1003","2":"39.43982","3":"41","4":"41"},{"1":"P4107_1004","2":"39.97978","3":"41","4":"41"},{"1":"P4107_1005","2":"38.30061","3":"40","4":"41"},{"1":"P4107_1006","2":"37.56991","3":"40","4":"41"}],"options":{"columns":{"min":{},"max":[3]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -378,14 +362,14 @@
 </div>
 <p>Alternatively, using the <code>purrr</code> method, we can just map each plot data frame into a row of summary statistics. Much neater!</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>
-    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dfr</a></span><span class="op">(</span><span class="va">plot.fastqc_per_sequence_quality_scores_plot</span>, <span class="kw">function</span><span class="op">(</span><span class="va">plot_df</span><span class="op">)</span><span class="op">{</span>
-      <span class="va">hist</span> <span class="op">=</span> <span class="fu">HistDat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/HistDat/man/HistDat.html">HistDat</a></span><span class="op">(</span>vals<span class="op">=</span><span class="va">plot_df</span><span class="op">$</span><span class="va">x</span>, counts <span class="op">=</span> <span class="va">plot_df</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-        mean_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>,
-        median_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>,
-        max_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
+    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">plot.fastqc_per_sequence_quality_scores_plot</span>, <span class="kw">function</span><span class="op">(</span><span class="va">plot_df</span><span class="op">)</span><span class="op">{</span>
+      <span class="va">hist</span> <span class="op">=</span> <span class="fu">HistDat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/HistDat/man/HistDat.html" class="external-link">HistDat</a></span><span class="op">(</span>vals<span class="op">=</span><span class="va">plot_df</span><span class="op">$</span><span class="va">x</span>, counts <span class="op">=</span> <span class="va">plot_df</span><span class="op">$</span><span class="va">y</span><span class="op">)</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+        mean_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>,
+        median_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>,
+        max_coverage <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">hist</span><span class="op">)</span>
       <span class="op">)</span>
     <span class="op">}</span><span class="op">)</span>,
     plot.fastqc_per_sequence_quality_scores_plot <span class="op">=</span> <span class="cn">NULL</span>
@@ -396,22 +380,22 @@
   </script>
 </div>
 </div>
-<div id="custom-plot-parsers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#custom-plot-parsers" class="anchor"></a>Custom Plot Parsers</h3>
-<p>So far, we have used <code>TidyMultiqc</code>’s built-in parsers. Each parser is a function that converts the plot JSON into a list of data frames. However, it is possible that we might encounter a new type of plot that is not yet implemented in <code>TidyMultiqc</code>. If this happens, the first thing you should do is <a href="https://github.com/multimeric/TidyMultiqc/issues">file an issue against this package</a>.</p>
+<div class="section level3">
+<h3 id="custom-plot-parsers">Custom Plot Parsers<a class="anchor" aria-label="anchor" href="#custom-plot-parsers"></a>
+</h3>
+<p>So far, we have used <code>TidyMultiqc</code>’s built-in parsers. Each parser is a function that converts the plot JSON into a list of data frames. However, it is possible that we might encounter a new type of plot that is not yet implemented in <code>TidyMultiqc</code>. If this happens, the first thing you should do is <a href="https://github.com/multimeric/TidyMultiqc/issues" class="external-link">file an issue against this package</a>.</p>
 <p>Then, if you’re daring, you can try to implement a parser. For your reference, you can refer to the existing parsers in the source code. Then, you can pass in your custom parser using the <code>plot_parsers</code> argument to <code>load_multiqc</code>:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="../reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span>
   <span class="va">multiqc_data_path</span>, 
   sections <span class="op">=</span> <span class="st">'plot'</span>,
   plots <span class="op">=</span> <span class="st">"fastqc_per_sequence_quality_scores_plot"</span>,
-  plot_parsers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  plot_parsers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
     <span class="co"># This fake parser function takes a plot and just returns the iris dataset</span>
     xy_line <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">plot_data</span>, <span class="va">name</span><span class="op">)</span><span class="op">{</span>
-      <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-        sample_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-          plot_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+        sample_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
+          plot_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
         <span class="op">)</span>
       <span class="op">)</span>
     <span class="op">}</span>
@@ -439,11 +423,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Michael Milton.</p>
+  <p></p>
+<p>Developed by Michael Milton.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -451,6 +437,8 @@
 
   
 
+
+  
 
   </body>
 </html>
