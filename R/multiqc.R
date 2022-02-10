@@ -15,7 +15,7 @@ utils::globalVariables(c(".", "metadata.sample_id"))
 
 #' Parses the "general_stats_data" section
 #' @param parsed The full parsed multiqc JSON file
-#' @return A list of samples, each of which has a list of metricsx
+#' @return A list of samples, each of which has a list of metrics
 #' @keywords internal
 #' @noRd
 parse_general <- function(parsed) {
@@ -26,7 +26,7 @@ parse_general <- function(parsed) {
           list(
             # Add the "general" prefix here for general stats
             key = stringr::str_c("general", sanitise_column_name(mname), sep = "."),
-            value = mvalue
+            value = `if`(length(mvalue) == 1, mvalue, list(mvalue))
           )
         }, map_keys = TRUE)
       })
