@@ -56,31 +56,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">load_multiqc</span><span class="op">(</span>
-  <span class="va">paths</span>,
-  plots <span class="op">=</span> <span class="cn">NULL</span>,
-  find_metadata <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>     <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">}</span>,
-  plot_parsers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  sections <span class="op">=</span> <span class="st">"general"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">load_multiqc</span><span class="op">(</span></span>
+<span>  <span class="va">paths</span>,</span>
+<span>  plots <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  find_metadata <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>     <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">}</span>,</span>
+<span>  plot_parsers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  sections <span class="op">=</span> <span class="st">"general"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>paths</dt>
 <dd><p>A string vector of filepaths to multiqc_data.json files</p></dd>
+
+
 <dt>plots</dt>
 <dd><p>A string vector, each of which contains the ID of a plot you
 want to include in the output. You can use <code><a href="list_plots.html">list_plots()</a></code> to help here.</p></dd>
+
+
 <dt>find_metadata</dt>
 <dd><p>A single function that will be called with a sample name and the
 parsed JSON for the entire report and returns a named list of metadata fields for the sample.
 Refer to the vignette for an example.</p></dd>
+
+
 <dt>plot_parsers</dt>
 <dd><p><strong>Advanced</strong>. A named list of custom parser functions.
 The names of the list should correspond to plotly plot types, such as "xy_line", and the values should be functions
 that return a named list of named lists. For the return value, the outer list is named by the sample ID, and the inner list
 is named by the name of the column. Refer to the source code for some examples.</p></dd>
+
+
 <dt>sections</dt>
 <dd><p>A string vector of zero or more sections to include in the output.
 Each section can be:</p><dl><dt>"plot"</dt>
@@ -94,23 +102,30 @@ Each section can be:</p><dl><dt>"plot"</dt>
 
 
 </dl><p>This defaults to 'general', which tends to contain the most useful statistics</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows.
+    
+
+<p>A tibble (data.frame subclass) with QC data and metadata as columns, and samples as rows.
 Columns are named according to the respective section they belong to,
 and will always be listed in the following order:</p>
 <dl><dt><code>metadata.X</code></dt>
 <dd><p>This column contains metadata for this sample.
 By default this is only the sample ID, but if you have provided the
 <code>find_metadata</code> argument, there may be more columns.</p></dd>
+
 <dt><code>general.X</code></dt>
 <dd><p>This column contains a generally useful summary statistic for each sample</p></dd>
+
 <dt><code>plot.X</code></dt>
 <dd><p>This column contains a data frame of plot data for each sample.
 Refer to the plot parsers documentation (ie the <code>parse_X</code> functions) for more information on the output format.</p></dd>
+
 <dt><code>raw.X</code></dt>
 <dd><p>This column contains a raw summary statistic or value relating to each sample</p></dd>
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -119,23 +134,24 @@ Refer to the plot parsers documentation (ie the <code>parse_X</code> functions) 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">load_multiqc</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"wgs/multiqc_data.json"</span>, package <span class="op">=</span> <span class="st">"TidyMultiqc"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">load_multiqc</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"wgs/multiqc_data.json"</span>, package <span class="op">=</span> <span class="st">"TidyMultiqc"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 165</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   metadata.sample_id general.total_reads general.mapped_reads general.percentag…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> P4107_1003                   868<span style="text-decoration: underline;">204</span>107            847<span style="text-decoration: underline;">562</span>410               97.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> P4107_1004                  <span style="text-decoration: underline;">1</span>002<span style="text-decoration: underline;">828</span>927            985<span style="text-decoration: underline;">115</span>356               98.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> P4107_1005                   974<span style="text-decoration: underline;">955</span>793            955<span style="text-decoration: underline;">921</span>317               98.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> P4107_1002                   865<span style="text-decoration: underline;">975</span>844            847<span style="text-decoration: underline;">067</span>526               97.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> P4107_1006                   912<span style="text-decoration: underline;">383</span>669            894<span style="text-decoration: underline;">970</span>438               98.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> P4107_1001                   772<span style="text-decoration: underline;">071</span>557            751<span style="text-decoration: underline;">147</span>332               97.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 161 more variables: general.median_coverage &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.median_insert_size &lt;int&gt;, general.avg_gc &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.1_x_pc &lt;dbl&gt;, general.5_x_pc &lt;dbl&gt;, general.10_x_pc &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.30_x_pc &lt;dbl&gt;, general.50_x_pc &lt;dbl&gt;, general.genome &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   metadata.sam…¹ gener…² gener…³ gener…⁴ gener…⁵ gener…⁶ gener…⁷ gener…⁸ gener…⁹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> P4107_1003      8.68<span style="color: #949494;">e</span>8  8.48<span style="color: #949494;">e</span>8    97.6      40     365    41.4    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> P4107_1004      1.00<span style="color: #949494;">e</span>9  9.85<span style="color: #949494;">e</span>8    98.2      46     363    41.0    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> P4107_1005      9.75<span style="color: #949494;">e</span>8  9.56<span style="color: #949494;">e</span>8    98.0      45     368    41.2    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> P4107_1002      8.66<span style="color: #949494;">e</span>8  8.47<span style="color: #949494;">e</span>8    97.8      40     367    41.3    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> P4107_1006      9.12<span style="color: #949494;">e</span>8  8.95<span style="color: #949494;">e</span>8    98.1      43     362    41.3    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> P4107_1001      7.72<span style="color: #949494;">e</span>8  7.51<span style="color: #949494;">e</span>8    97.3      36     358    41.4    92.3    92.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 156 more variables: general.10_x_pc &lt;dbl&gt;, general.30_x_pc &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.50_x_pc &lt;dbl&gt;, general.genome &lt;chr&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.number_of_variants_before_filter &lt;dbl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.number_of_effects &lt;dbl&gt;, general.genome_total_length &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span>
 </code></pre></div>
     </div>
   </div>
@@ -150,7 +166,7 @@ Refer to the plot parsers documentation (ie the <code>parse_X</code> functions) 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

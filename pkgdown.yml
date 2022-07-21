@@ -1,7 +1,7 @@
 pandoc: 2.7.3
-pkgdown: 2.0.2
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   TidyMultiqc: TidyMultiqc.html
-last_built: 2022-02-11T00:41Z
+last_built: 2022-07-21T00:37Z
 

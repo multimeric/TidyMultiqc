@@ -82,33 +82,33 @@
 </h2>
 <p>The latest stable version can be installed from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"TidyMultiqc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"TidyMultiqc"</span><span class="op">)</span></span></code></pre></div>
 <p>You can also install the development version of TidyMultiqc from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"multimeric/TidyMultiqc"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"multimeric/TidyMultiqc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span><span class="va">multiqc_data_path</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 × 165</span>
-<span class="co">#&gt;   metadata.sample_id general.total_reads general.mapped_reads general.percentag…</span>
-<span class="co">#&gt;   &lt;chr&gt;                            &lt;dbl&gt;                &lt;dbl&gt;              &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 P4107_1003                   868204107            847562410               97.6</span>
-<span class="co">#&gt; 2 P4107_1004                  1002828927            985115356               98.2</span>
-<span class="co">#&gt; 3 P4107_1005                   974955793            955921317               98.0</span>
-<span class="co">#&gt; 4 P4107_1002                   865975844            847067526               97.8</span>
-<span class="co">#&gt; 5 P4107_1006                   912383669            894970438               98.1</span>
-<span class="co">#&gt; 6 P4107_1001                   772071557            751147332               97.3</span>
-<span class="co">#&gt; # … with 161 more variables: general.median_coverage &lt;int&gt;,</span>
-<span class="co">#&gt; #   general.median_insert_size &lt;int&gt;, general.avg_gc &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   general.1_x_pc &lt;dbl&gt;, general.5_x_pc &lt;dbl&gt;, general.10_x_pc &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   general.30_x_pc &lt;dbl&gt;, general.50_x_pc &lt;dbl&gt;, general.genome &lt;chr&gt;,</span>
-<span class="co">#&gt; #   general.number_of_variants_before_filter &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;, …</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">TidyMultiqc</span><span class="fu">::</span><span class="fu"><a href="reference/load_multiqc.html">load_multiqc</a></span><span class="op">(</span><span class="va">multiqc_data_path</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 165</span></span>
+<span><span class="co">#&gt;   metadata.sample_id general.total_reads general.mapped_reads general.percentag…</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                            &lt;dbl&gt;                &lt;dbl&gt;              &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 P4107_1003                   868204107            847562410               97.6</span></span>
+<span><span class="co">#&gt; 2 P4107_1004                  1002828927            985115356               98.2</span></span>
+<span><span class="co">#&gt; 3 P4107_1005                   974955793            955921317               98.0</span></span>
+<span><span class="co">#&gt; 4 P4107_1002                   865975844            847067526               97.8</span></span>
+<span><span class="co">#&gt; 5 P4107_1006                   912383669            894970438               98.1</span></span>
+<span><span class="co">#&gt; 6 P4107_1001                   772071557            751147332               97.3</span></span>
+<span><span class="co">#&gt; # … with 161 more variables: general.median_coverage &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   general.median_insert_size &lt;int&gt;, general.avg_gc &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   general.1_x_pc &lt;dbl&gt;, general.5_x_pc &lt;dbl&gt;, general.10_x_pc &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   general.30_x_pc &lt;dbl&gt;, general.50_x_pc &lt;dbl&gt;, general.genome &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   general.number_of_variants_before_filter &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;, …</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -159,7 +159,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

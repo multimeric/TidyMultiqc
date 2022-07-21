@@ -50,6 +50,34 @@
       <small>Source: <a href="https://github.com/multimeric/TidyMultiqc/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.2" id="version-102">Version 1.0.2<small>2022-02-10</small><a class="anchor" aria-label="anchor" href="#version-102"></a></h2>
+<ul><li>Fixed a bug where a <code>multiqc_data.json</code> file with <code>report_general_stats_data</code> containing arrays of data would break the parser [<a href="https://github.com/multimeric/TidyMultiqc/issues/7" class="external-link">#7</a>]</li></ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.1" id="version-101">Version 1.0.1<a class="anchor" aria-label="anchor" href="#version-101"></a></h2>
+<ul><li>Fixed a bug when the <code>plots</code> vector is not provided but <code>sections = "plot"</code> [<a href="https://github.com/multimeric/TidyMultiqc/issues/5" class="external-link">#5</a>]</li></ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.0" id="version-100">Version 1.0.0<small>2021-11-27</small><a class="anchor" aria-label="anchor" href="#version-100"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-0-0">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-0-0"></a></h3>
+<ul><li>Removed the <code>plot_opts</code> key from the <code>load_multiqc</code> function. Instead, the plots are returned as list columns with nested data frames inside the returned data frame. Users are then able to parse out summary statistics using normal <code>dplyr</code> and <code>tidyr</code> functions. Refer to the vignette for examples. Also, instead of selecting plots using the names of this argument, they are selected using the new <code>plots</code> option (documented below) [<a href="https://github.com/multimeric/TidyMultiqc/issues/1" class="external-link">#1</a>].</li>
+<li>Renamed “plots” to “plot” in the <code>sections</code> argument. This ensures consistency with the data frame column names for plots, which are “plot.XX”.</li>
+<li>
+<code>metadata.sample_id</code> is now always the first column in the data frame, even if you have provided a metadata function.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-1-0-0">New Features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0"></a></h3>
+<ul><li>Added <code><a href="../reference/list_plots.html">list_plots()</a></code> utility function for listing the available plots [<a href="https://github.com/multimeric/TidyMultiqc/issues/2" class="external-link">#2</a>].</li>
+<li>Added <code>plot_parsers</code> argument to <code>load_multiqc</code> which allows for custom parsers for diverse plot types in MultiQC.</li>
+<li>Added <code>plots</code> argument to <code>load_multiqc</code>, which is a vector of plot identifiers to parse.</li>
+<li>Created a pkgdown website, which is available at <a href="https://multimeric.github.io/TidyMultiqc/" class="external-link uri">https://multimeric.github.io/TidyMultiqc/</a>.</li>
+<li>Added documentation for the plot parsers, which explains the format of the nested data frame produced for each plot type.</li>
+<li>Added GitHub repository and issue tracker to package metadata [<a href="https://github.com/multimeric/TidyMultiqc/issues/3" class="external-link">#3</a>].</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-0"></a></h3>
+<ul><li>Fixed errors when the data frame contains no data (for example because you only requested a single plot which isn’t present) [<a href="https://github.com/multimeric/TidyMultiqc/issues/2" class="external-link">#2</a>].</li></ul></div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -64,7 +92,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
