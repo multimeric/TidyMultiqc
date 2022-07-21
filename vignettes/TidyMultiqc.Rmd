@@ -5,8 +5,6 @@ output:
     toc: true
     toc_depth: 3
     df_print: paged
-pkgdown:
-  as_is: true
 vignette: >
   %\VignetteIndexEntry{TidyMultiqc}
   %\VignetteEngine{knitr::rmarkdown}
