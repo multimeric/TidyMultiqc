@@ -1,7 +1,7 @@
 Package: TidyMultiqc
 Type: Package
 Title: Converts 'MultiQC' Reports into Tidy Data Frames
-Version: 1.0.2
+Version: 1.0.3
 Author: Michael Milton
 Maintainer: Michael Milton <michael.r.milton@gmail.com>
 Description: Provides the means to convert 'multiqc_data.json' files,
