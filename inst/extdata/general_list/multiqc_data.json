@@ -24,5 +24,42 @@
         ]
       }
     }
-  ]
+  ],
+  "report_saved_raw_data": {
+    "multiqc_salmon": {
+      "SRR9265373": {
+        "salmon_version": "1.6.0",
+        "samp_type": "none",
+        "opt_type": "vb",
+        "quant_errors": [],
+        "num_libraries": 1,
+        "library_types": [
+          "U"
+        ],
+        "frag_dist_length": 1001,
+        "frag_length_mean": 250.0000097391447,
+        "frag_length_sd": 25.001769513739426,
+        "seq_bias_correct": true,
+        "gc_bias_correct": true,
+        "num_bias_bins": 4096,
+        "mapping_type": "mapping",
+        "keep_duplicates": false,
+        "num_valid_targets": 236186,
+        "num_decoy_targets": 0,
+        "num_eq_classes": 285324,
+        "serialized_eq_classes": false,
+        "eq_class_properties": [
+          "range_factorized",
+          "gzipped"
+        ],
+        "length_classes": [
+          543,
+          742,
+          1307,
+          2531,
+          347561
+        ]
+      }
+    }
+  }
 }

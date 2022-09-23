@@ -1,7 +1,7 @@
 test_that("The package can handle general stats with different lengths", {
   df = load_multiqc(
     paths = system.file("extdata", "general_list/multiqc_data.json", package = "TidyMultiqc"),
-    sections = "general"
+    sections = c("general", "raw")
   )
 
   expect_equal(length(df$general.salmon_version[[1]]), 1)
