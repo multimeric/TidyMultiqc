@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">TidyMultiqc</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
       </span>
     </div>
 
@@ -119,8 +119,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_effects &lt;dbl&gt;, general.genome_total_length &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>We’ve now generated a <code>tibble</code> (a kind of data frame), whose rows are samples in the QC report, and whose columns are QC data and metadata about these samples.</p>
 <p>By default this function only returns the “general” statistics, which are the ones in the “General Statistics” table at the top of the MultiQC report. In TidyMultiqc, these statistics are all prefixed by <code>general.</code> We can also extract the “raw” statistics, which includes some fields normally hidden from the report. These statistics will have the prefix <code>raw.&lt;toolname&gt;.</code> where <code>&lt;toolname&gt;</code> is the QC tool used to calculate it.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -140,8 +139,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   raw.snpeff.genome &lt;chr&gt;, raw.snpeff.number_of_variants_before_filter &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   raw.snpeff.empty_id &lt;dbl&gt;, raw.snpeff.empty_id_percent &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   raw.snpeff.number_of_effects &lt;dbl&gt;, raw.snpeff.genome_total_length &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   raw.snpeff.genome_effective_length &lt;dbl&gt;, raw.snpeff.change_rate &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   raw.snpeff.genome_effective_length &lt;dbl&gt;, raw.snpeff.change_rate &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Often you won’t care about fields like <code>raw.qualimap_bamqc_genome_results.bam_file</code>, the path to the original BAM file, but ‘raw’ at least provides this option.</p>
 <p>You can also combine both <code>general</code> and <code>raw</code> sections by passing in a longer vector:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -223,8 +221,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_effects &lt;dbl&gt;, general.genome_total_length &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="from-the-file-path">From the File Path<a class="anchor" aria-label="anchor" href="#from-the-file-path"></a>
@@ -261,8 +258,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.avg_gc &lt;dbl&gt;, general.1_x_pc &lt;dbl&gt;, general.5_x_pc &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.10_x_pc &lt;dbl&gt;, general.30_x_pc &lt;dbl&gt;, general.50_x_pc &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.genome &lt;chr&gt;, general.number_of_variants_before_filter &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Of course in a real application we would choose specific names for each field.</p>
 </div>
 <div class="section level3">
@@ -294,8 +290,7 @@
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_known_variants_brie_non_empty_id_percent &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   general.number_of_effects &lt;dbl&gt;, general.genome_total_length &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `colnames()` to see all variable names</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;">#   general.genome_effective_length &lt;dbl&gt;, general.change_rate &lt;dbl&gt;, …</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -396,8 +391,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>    14  <span style="text-decoration: underline;">77</span>653</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>    15 <span style="text-decoration: underline;">157</span>422</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>    16 <span style="text-decoration: underline;">294</span>209</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 25 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 25 more rows</span></span></span></code></pre></div>
 <p>So each data frame is a set of x, y pairs. As it’s a histogram plot, we know that the <code>x</code> value is the quality score, and <code>y</code> is the number of times that score has been counted.</p>
 </div>
 <div class="section level3">
@@ -420,8 +414,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> P4107_1001            14  <span style="text-decoration: underline;">77</span>653</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> P4107_1001            15 <span style="text-decoration: underline;">157</span>422</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> P4107_1001            16 <span style="text-decoration: underline;">294</span>209</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 206 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 206 more rows</span></span></span></code></pre></div>
 <p>As you can see, if we unnest in this way, we now have multiple rows for the same sample, which is a bit confusing (and not Tidy). However, if we use <code>group_by</code> and then <code>summarise</code>, this can be a useful way to calculate summary statistics. For example, if we want the total number of reads, we could do the following:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
