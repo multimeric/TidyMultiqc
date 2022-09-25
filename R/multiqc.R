@@ -60,7 +60,7 @@ parse_raw <- function(parsed) {
               list(
                 # Add the "raw" prefix here for raw stats
                 key = stringr::str_c("raw", sanitise_column_name(tool), sanitise_column_name(mname), sep = "."),
-                value = mvalue
+                value = `if`(length(mvalue) == 1, mvalue, list(mvalue))
               )
           }, map_keys = TRUE)
         )
